@@ -1,0 +1,54 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class M_admin extends CI_Model {
+
+	public function get_data_admin()
+	{
+		return $this->db->get('admin')->result();
+	}
+
+	public function get_perusahaan()
+	{
+		return $this->db->get_where("perusahaan")->result();
+	}
+
+	public function get_sekolah()
+	{
+		return $this->db->get("sekolah")->result();
+	}
+
+	public function proses_tambah_data($tabel,$data)
+	{
+		if ($this->db->insert($tabel, $data)){
+			return TRUE;
+		}
+		else {
+			return false;
+		}
+	}
+
+	public function proses_hapus($id,$tabel,$img)
+	{
+		$id_tabel     	= ($tabel == "sekolah") ? "id_sklh" : "id_per";
+		$this->db->where($id_tabel, $id);
+		if ($this->db->delete($tabel)) {
+			unlink("assets/upload/".$tabel."/".$img);
+			return true;
+		}
+	}
+
+	public function get_max_id_user($tabel)
+	{
+		$str_id        	= ($tabel == "sekolah") ? "SKL" : "PER";
+		$id_tabel     	= ($tabel == "sekolah") ? "id_sklh" : "id_per";
+		$this->db->select("MAX(CONVERT(SUBSTRING_INDEX($id_tabel,'$str_id', -1),INT))+1 as 'num_max'");      
+		$get_num 		= $this->db->get($tabel)->row();
+		$num_max_id		= ($get_num->num_max == null) ? "1" :  $get_num->num_max;  
+
+		return $str_id.$num_max_id;
+	}
+}
+
+/* End of file m_admin.php */
+/* Location: ./application/models/m_admin.php */
