@@ -2,15 +2,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_admin extends CI_Controller {
-	
+	var $data = array();
 	public function __construct()
 	{
-		parent::__construct();
+		parent::__construct("web_admin");
 		if (empty($this->session->userdata('data_login_admin'))) {
 			redirect('web_login/form/adm','refresh');
 		}
 		$this->load->model('M_admin');
-		$this->menu = $this->data['menu'] = "admin/menu";
+		$this->data['menu']  = "admin/menu";
 	}
 
 	public function beranda()

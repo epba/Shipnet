@@ -26,11 +26,11 @@ class Web_login extends CI_Controller {
 			case 'adm':
 			$this->load->view('admin/form_login');
 			break;
-			case 'insti':
-			$this->load->view('institusi/form_login');
+			case 'seklh':
+			$this->load->view('sekolah/form_login');
 			break;
-			case 'insta':
-			$this->load->view('instansi/form_login');
+			case 'per':
+			$this->load->view('perusahaan/form_login');
 			break;
 			default:
 			break;
@@ -46,11 +46,10 @@ class Web_login extends CI_Controller {
 			case 'adm':
 			$this->M_login->cek_data_form_login('admin',$username,$password,'adm');
 			break;
-			case 'insti':
-			$this->M_login->cek_data_form_login('instansi',$username,$password,'insti');
-			break;
-			case 'insta':
-			$this->M_login->cek_data_form_login('instansi',$username,$password,'insta');
+			case 'per':
+			echo $this->db->last_query();
+			echo "string";
+			$this->M_login->cek_data_form_login('perusahaan',$username,$password,'per');
 			break;
 			default:
 			break;

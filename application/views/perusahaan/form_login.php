@@ -22,7 +22,8 @@
     <div class="col-lg-12 text-center">
     <br>
     <br>
-      <?php echo $this->session->flashdata('fail_login'); ?>
+      <?php echo $this->session->flashdata('fail_login') ?>
+      <?php echo $this->db->last_query(); ?>
     </div>
 
     <div class="login-box">
@@ -31,7 +32,7 @@
       <!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg"><h2>Verifikasi Identitas</h2></p>
-        <?php echo form_open(base_url().'login/data_form/insta'); ?>
+        <?php echo form_open(base_url().'web_login/data_form/per'); ?>
         <div class="form-group has-feedback">
           <input type="text" class="form-control" placeholder="Username" name="username" required="">
           <span class="glyphicon glyphicon-user form-control-feedback"></span>

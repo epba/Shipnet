@@ -6,7 +6,7 @@ class Web_perusahaan extends CI_Controller {
 	public function beranda()
 	{
 		$data['title']		= "Beranda";
-		$data['halaman']	= "institusi/halaman_beranda";
+		$data['halaman']	= "perusahaan/halaman_beranda";
 		$this->load->view('template',$data);
 	}
 
