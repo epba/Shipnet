@@ -59,7 +59,6 @@ class Web_admin extends CI_Controller {
 
 	public function tampung_data_form($simpan_sebagai)
 	{
-
 		$buntut = ($simpan_sebagai == "sekolah") ?  "sklh": "per";
 		$new_id	= $this->M_admin->get_max_id_user($simpan_sebagai);
 
@@ -71,10 +70,9 @@ class Web_admin extends CI_Controller {
 		$this->form_validation->set_rules('alamat','Alamat','required|min_length[5]');
 		$this->form_validation->set_rules('web','Website','');
 		$this->form_validation->set_rules('fax','fax','');
-		
-		if($this->form_validation->run())     
-		{   
-		//Form yang sama pada tambah perusahaan dan sekolah
+
+		if($this->form_validation->run()) 
+		{
 			$data_general			= array(
 				'id_'.$buntut		=> $new_id,
 				'nama_'.$buntut		=> addslashes($this->input->post('nama')),
@@ -86,15 +84,16 @@ class Web_admin extends CI_Controller {
 				'web_'.$buntut		=> addslashes($this->input->post('web')),
 				'password_'.$buntut	=> password_hash("welcome",PASSWORD_BCRYPT)
 				);
+
 			switch ($simpan_sebagai) {
 				case 'sekolah':
-			//Jika url menyatakan sekolah, maka data general ditambah sbb:
+				//Jika url menyatakan sekolah, maka data general ditambah sbb:
 				$data_spesifik		=  array(
 					'level_'.$buntut	=> $this->input->post('level'),
 					);
 				break;
 				case 'perusahaan':
-			//Jika url menyatakan perusahaan, maka data general ditambah sbb:
+				//Jika url menyatakan perusahaan, maka data general ditambah sbb:
 				$data_spesifik	=  array(
 					'add_by'	=> $this->session->userdata('data_login_admin')['username_adm'],
 					);
@@ -103,32 +102,41 @@ class Web_admin extends CI_Controller {
 					# code...
 				break;
 			}
-			if (!empty($_FILES['logo']['name'])) {
+
+			if (!empty($_FILES['logo']['name'])) // form mengandung foto
+			{
 				$extensi = explode("/",$_FILES['logo']['type']);
 				$config['upload_path'] 	 = './assets/upload/'.$simpan_sebagai;
 				$config['allowed_types'] = 'jpg|png|jpeg';	
 				$config['file_name'] 	 = $new_id.".".$extensi[1];
 				$this->upload->initialize($config);
-				$this->load->library('upload', $config);
-			// Jika gagal Upload
-				if ( ! $this->upload->do_upload("logo")){
-					$error_upload = array('error' => $this->upload->display_errors());
-					$this->session->set_flashdata('notif_add', '
-						<div class="alert alert-danger alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-								×
-							</button>
-							<h4>
-								<i class="icon fa fa-info"></i>
-								Info
-							</h4>
-							Penambahan data GAGAL <p>'.$error_upload['error'].'
-						</div>');
-					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
-				} 
-			//jika berhasil upload
-				else {
-					if($this->M_admin->proses_tambah_data($simpan_sebagai,array_merge($data_general, $data_spesifik,array('logo_'.$buntut => $config['file_name'])))){
+
+				$kirim_data = $this->M_admin->proses_tambah_data($simpan_sebagai,array_merge($data_general, $data_spesifik,array('logo_'.$buntut => $config['file_name'])));
+
+				if($kirim_data) //simpan data ke db
+				{ 
+					//lakukan upload
+					$this->load->library('upload', $config);
+					// Jika gagal Upload
+					if ( ! $this->upload->do_upload("logo"))
+					{
+						$error_upload = array('error' => $this->upload->display_errors());
+						$this->session->set_flashdata('notif_add', '
+							<div class="alert alert-danger alert-dismissible">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+									×
+								</button>
+								<h4>
+									<i class="icon fa fa-info"></i>
+									Info
+								</h4>
+								Penambahan data Berhasil, tapi logo gagal. Silahkan edit foto secara manual pada profil'.$simpan_sebagai.'<p>'.$error_upload['error'].'
+							</div>');
+						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
+					}
+					//jika sukses upload
+					else
+					{ 
 						$this->session->set_flashdata('notif_add', '
 							<div class="alert alert-info alert-dismissible">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
@@ -142,38 +150,9 @@ class Web_admin extends CI_Controller {
 							</div>');
 						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 					}
-					else {
-						$this->session->set_flashdata('notif_add', '
-							<div class="alert alert-danger alert-dismissible">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									×
-								</button>
-								<h4>
-									<i class="icon fa fa-info"></i>
-									Info
-								</h4>
-								Penambahan data Gagal.<p> 
-							</div>');
-						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
-					}
 				}
-			}
-			else {
-				if($this->M_admin->proses_tambah_data($simpan_sebagai,array_merge($data_general, $data_spesifik))){
-					$this->session->set_flashdata('notif_add', '
-						<div class="alert alert-info alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-								×
-							</button>
-							<h4>
-								<i class="icon fa fa-info"></i>
-								Info
-							</h4>
-							Penambahan data sukses TANPA LOGO.<p> 
-						</div>');
-					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
-				}
-				else {
+				else // gagal menyimpan data ke db
+				{
 					$this->session->set_flashdata('notif_add', '
 						<div class="alert alert-danger alert-dismissible">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
@@ -183,13 +162,48 @@ class Web_admin extends CI_Controller {
 								<i class="icon fa fa-info"></i>
 								Info
 							</h4>
-							Penambahan data Gagal.<p> 
+							Terdapat duplikasi username sehingga penyimpanan data baru gagal.
 						</div>');
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}
 			}
+			else // form tidak mengandung foto
+			{
+				$kirim_data = $this->M_admin->proses_tambah_data($simpan_sebagai,array_merge($data_general, $data_spesifik));
+				if($kirim_data) //simpan data ke db
+				{ 
+					$this->session->set_flashdata('notif_add', '
+						<div class="alert alert-info alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+								×
+							</button>
+							<h4>
+								<i class="icon fa fa-info"></i>
+								Info
+							</h4>
+							Penambahan data sukses
+						</div>');
+					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('notif_add', '
+						<div class="alert alert-danger alert-dismissible">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+								×
+							</button>
+							<h4>
+								<i class="icon fa fa-info"></i>
+								Info
+							</h4>
+							Terdapat duplikasi username sehingga penyimpanan data baru gagal.
+						</div>');
+					redirect('web_admin/data_'.$simpan_sebagai,'refresh');	
+				}
+			}
 		}
-		else {
+		else 
+		{
 			$this->session->set_flashdata('notif_add', '
 				<div class="alert alert-danger alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
@@ -199,12 +213,11 @@ class Web_admin extends CI_Controller {
 						<i class="icon fa fa-info"></i>
 						Info
 					</h4>
-					Isi data sesuai ketentuan<p>'.validation_errors().' 
+					Gagal tambah data.'.validation_errors().'
 				</div>');
 			redirect('web_admin/form/'.$simpan_sebagai,'refresh');
 		}
 	}
-
 
 	public function hapus_data($id,$prev_url,$img)
 	{
