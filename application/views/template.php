@@ -259,7 +259,7 @@
       <section class="sidebar">
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-          <li class="header">MAIN NAVIGATION <?php echo base_url(); ?></li>
+          <li class="header">MAIN NAVIGATION</li>
           <?php $this->load->view("admin/menu"); ?>
       </section>
       <!-- /.sidebar -->
