@@ -219,9 +219,9 @@ class Web_admin extends CI_Controller {
 		}
 	}
 
-	public function hapus_data($id,$prev_url,$img)
+	public function hapus_data($id,$prev_url)
 	{
-		if($this->M_admin->proses_hapus($id,$prev_url,$img) == "true"){
+		if($this->M_admin->proses_hapus($id,$prev_url) == "true"){
 			$this->session->set_flashdata('notif_hapus', '
 				<div class="alert alert-info alert-dismissible">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -236,7 +236,7 @@ class Web_admin extends CI_Controller {
 				<h4><i class="icon fa fa-close"></i> Info</h4>
 				Gagal menghapus data.
 			</div>');
-			// redirect('web_admin/data_'.$prev_url,'refresh');
+			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 	}
 

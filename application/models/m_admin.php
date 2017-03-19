@@ -20,7 +20,8 @@ class M_admin extends CI_Model {
 
 	public function proses_tambah_data($tabel,$data)
 	{
-		if ($this->db->insert($tabel, $data)){
+		if ($this->db->insert($tabel, $data))
+		{
 			return TRUE;
 		}
 		else {
@@ -28,12 +29,15 @@ class M_admin extends CI_Model {
 		}
 	}
 
-	public function proses_hapus($id,$tabel,$img)
+	public function proses_hapus($id,$tabel)
 	{
+		$img			= $this->uri->segment(5);
 		$id_tabel     	= ($tabel == "sekolah") ? "id_sklh" : "id_per";
 		$this->db->where($id_tabel, $id);
 		if ($this->db->delete($tabel)) {
-			unlink("assets/upload/".$tabel."/".$img);
+			if(file_exists("assets/upload/".$tabel."/".$img)){
+				@unlink("assets/upload/".$tabel."/".$img);
+			}
 			return true;
 		}
 	}
