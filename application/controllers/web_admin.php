@@ -239,12 +239,6 @@ class Web_admin extends CI_Controller {
 			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 	}
-
-	public function log_out()
-	{
-		$this->session->sess_destroy("data_login_admin");
-		redirect('web_login/form/adm','refresh');
-	}
 }
 
 
