@@ -10,14 +10,19 @@ class Web_admin extends CI_Controller {
 			redirect('web_login/form/adm','refresh');
 		}
 		$this->load->model('M_admin');
-		$this->data['menu']  = "admin/menu";
+	}
+
+	public function template_admin($data)
+	{
+		$kumpulan_data	=	array_merge(array("menu" => "admin/menu"),$data);
+		$this->load->view('template', $kumpulan_data);
 	}
 
 	public function beranda()
 	{
 		$data['title']		= "Beranda Admin";
 		$data['halaman']	= "admin/halaman_beranda";
-		$this->load->view('template',$data);
+		$this->template_admin($data);
 	}
 
 	public function data_admin()
@@ -25,7 +30,7 @@ class Web_admin extends CI_Controller {
 		$data['admin']		= $this->M_admin->get_data_admin();
 		$data['title']		= "Data Admin";
 		$data['halaman']	= "admin/halaman_data_admin";
-		$this->load->view('template',$data);
+		$this->template_admin($data);
 	}
 
 	public function data_perusahaan()
@@ -33,7 +38,7 @@ class Web_admin extends CI_Controller {
 		$data['perusahaan']		= $this->M_admin->get_perusahaan();
 		$data['title']		= "Data Perusahaan";
 		$data['halaman']	= "admin/halaman_data_perusahaan";
-		$this->load->view('template',$data);
+		$this->template_admin($data);
 	}
 
 	public function data_sekolah()
@@ -41,7 +46,7 @@ class Web_admin extends CI_Controller {
 		$data['sekolah']	= $this->M_admin->get_sekolah();
 		$data['title']		= "Data Sekolah";
 		$data['halaman']	= "admin/halaman_data_sekolah";
-		$this->load->view('template',$data);
+		$this->template_admin($data);
 	}
 
 	public function form($nama_form)
@@ -49,11 +54,11 @@ class Web_admin extends CI_Controller {
 		$data['halaman']	= "admin/form_tambah_user";
 		if ($nama_form == "sekolah") {
 			$data['title']		= "Tambah Data Sekolah";
-			$this->load->view('template',$data);
+			$this->template_admin($data);
 		}
 		elseif ($nama_form == "perusahaan") {
 			$data['title']		= "Tambah Data Perusahaan";
-			$this->load->view('template',$data);
+			$this->template_admin($data);
 		}
 	}
 
