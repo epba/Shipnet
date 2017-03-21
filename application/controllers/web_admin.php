@@ -2,10 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_admin extends CI_Controller {
-	var $data = array();
 	public function __construct()
 	{
-		parent::__construct("web_admin");
+		parent::__construct();
 		if (empty($this->session->userdata('data_login_admin'))) {
 			redirect('web_login/form/adm','refresh');
 		}
@@ -167,7 +166,7 @@ class Web_admin extends CI_Controller {
 								<i class="icon fa fa-info"></i>
 								Info
 							</h4>
-							Terdapat duplikasi username sehingga penyimpanan data baru gagal.
+							Terdapat kesalahan saat simpan data.'.$this->db->last_query().'
 						</div>');
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}

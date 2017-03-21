@@ -23,7 +23,6 @@
     <br>
     <br>
       <?php echo $this->session->flashdata('fail_login') ?>
-      <?php echo $this->db->last_query(); ?>
     </div>
 
     <div class="login-box">

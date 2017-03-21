@@ -9,16 +9,6 @@ class Web_login extends CI_Controller {
 		$sesi_perusahaan= $this->session->userdata('data_login_perusahaan_')['level'];
 		$sesi_sekolah	= $this->session->userdata('data_login_sekolah')['level'];
 		$sesi_mahasiswa	= $this->session->userdata('data_login_mahasiswa');
-
-		if (!empty($sesi_admin)) {
-			redirect('web_admin/beranda','refresh');
-		}
-		elseif (($sesi_perusahaan == "per") or ($sesi_perusahaan == "per_mou")) {
-			redirect('instansi/beranda','refresh');
-		}
-		elseif ($sesi_sekolah == "institusi") {
-			redirect('institusi/beranda','refresh');
-		}
 	}
 
 	public function form() {
@@ -47,8 +37,6 @@ class Web_login extends CI_Controller {
 			$this->M_login->cek_data_form_login('admin',$username,$password,'adm');
 			break;
 			case 'per':
-			echo $this->db->last_query();
-			echo "string";
 			$this->M_login->cek_data_form_login('perusahaan',$username,$password,'per');
 			break;
 			default:

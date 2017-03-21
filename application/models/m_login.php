@@ -50,7 +50,7 @@ class M_login extends CI_Model {
 							'web_per' => $data->web_per,
 							'logo_per' => $data->logo_per
 							);
-						$this->session->set_userdata('data_login_admin', $array);
+						$this->session->set_userdata('data_login_perusahaan', $array);
 						redirect('web_perusahaan/beranda','refresh');
 					}
 					break;

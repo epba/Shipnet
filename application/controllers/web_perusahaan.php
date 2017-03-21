@@ -3,6 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_perusahaan extends CI_Controller {
 
+	public function __construct()
+	{
+		parent::__construct();
+		if (empty($this->session->userdata('data_login_perusahaan'))) {
+			redirect('web_login/form/per','refresh');
+		}
+	}
 	public function beranda()
 	{
 		$data['title']		= "Beranda";
