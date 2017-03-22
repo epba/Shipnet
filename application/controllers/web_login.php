@@ -54,6 +54,9 @@ class Web_login extends CI_Controller {
 			case 'per':
 			$this->M_login->cek_data_form_login('perusahaan',$username,$password,'per');
 			break;
+			case 'sklh':
+			$this->M_login->cek_data_form_login('sekolah',$username,$password,'sklh');
+			break;
 			default:
 			break;
 		}
