@@ -5,22 +5,37 @@ class Web_login extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->status				= $this->uri->segment(3);
-		$sesi_admin		= $this->session->userdata('data_login_admin');
-		$sesi_perusahaan= $this->session->userdata('data_login_perusahaan_')['level'];
-		$sesi_sekolah	= $this->session->userdata('data_login_sekolah')['level'];
-		$sesi_mahasiswa	= $this->session->userdata('data_login_mahasiswa');
+		$this->sesi_admin		= $this->session->userdata('data_login_admin');
+		$this->sesi_perusahaan= $this->session->userdata('data_login_perusahaan_')['level'];
+		$this->sesi_sekolah	= $this->session->userdata('data_login_sekolah')['level'];
+		$this->sesi_mahasiswa	= $this->session->userdata('data_login_mahasiswa');
 	}
 
 	public function form() {
 		switch ($this->status) {
 			case 'adm':
-			$this->load->view('admin/form_login');
+			if (isset($this->sesi_admin)) {
+				redirect('web_admin/beranda');
+			}
+			else {
+				$this->load->view('admin/form_login');
+			}
 			break;
-			case 'seklh':
-			$this->load->view('sekolah/form_login');
+			case 'sklh':
+			if (!empty($this->sesi_perusahaan)) {
+				redirect('web_sekolah/beranda','refresh');
+			}
+			else {
+				$this->load->view('sekolah/form_login');
+			}
 			break;
 			case 'per':
-			$this->load->view('perusahaan/form_login');
+			if (!empty($this->sesi_perusahaan)) {
+				redirect('web_perusahaan/beranda','refresh');
+			}
+			else {
+				$this->load->view('perusahaan/form_login');
+			}
 			break;
 			default:
 			break;

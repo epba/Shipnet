@@ -10,11 +10,19 @@ class Web_perusahaan extends CI_Controller {
 			redirect('web_login/form/per','refresh');
 		}
 	}
+
+
+	public function template_persusahaan($data)
+	{
+		$kumpulan_data	=	array_merge(array("menu" => "perusahaan/menu","logout" => "web_logout/perusahaan"),$data);
+		$this->load->view('template', $kumpulan_data);
+	}
+
 	public function beranda()
 	{
 		$data['title']		= "Beranda";
 		$data['halaman']	= "perusahaan/halaman_beranda";
-		$this->load->view('template',$data);
+		$this->template_persusahaan($data);
 	}
 
 }

@@ -247,7 +247,7 @@
               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
             </li>
             <li>
-              <a href="<?php echo site_url(); ?>/web_logout/admin"><i class="fa fa-sign-out"> Sign Out</i></a>
+              <a href="<?php echo base_url().$logout; ?>" <i class="fa fa-sign-out"> Sign Out</i></a>
             </li>
           </ul>
         </div>

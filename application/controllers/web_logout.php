@@ -8,6 +8,11 @@ class Web_logout extends CI_Controller {
 		$this->session->sess_destroy("data_login_admin");
 		redirect('web_login/form/adm','refresh');
 	}
+	public function perusahaan()
+	{
+		$this->session->sess_destroy("data_login_perusahaan");
+		redirect('web_login/form/per','refresh');
+	}
 
 }
 

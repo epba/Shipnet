@@ -13,7 +13,7 @@ class Web_admin extends CI_Controller {
 
 	public function template_admin($data)
 	{
-		$kumpulan_data	=	array_merge(array("menu" => "admin/menu"),$data);
+		$kumpulan_data	=	array_merge(array("menu" => "admin/menu","logout" => "web_logout/admin"),$data);
 		$this->load->view('template', $kumpulan_data);
 	}
 
