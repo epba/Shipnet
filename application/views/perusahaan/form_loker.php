@@ -7,12 +7,12 @@
 		<div class="form-group">
 			<label for="judul_lok" class="control-label">Judul Loker</label>
 			
-			<input type="text" name="judul_lok" value="" class="form-control" id="judul_lok" />
+			<input type="text" name="judul_lok" value="" class="form-control" id="judul_lok"  required="" />
 		</div>
 		<div class="form-group">
 			<label for="isi_lok" class="control-label">Konten</label>
 			
-			<textarea name="isi_lok" class="form-control" id="isi_lok"></textarea>
+			<textarea name="isi_lok" class="form-control" id="isi_lok" required="" ></textarea>
 		</div>
 		<div class="form-group">
 			<label for="foto_lok" class="control-label">Foto</label>
@@ -32,16 +32,16 @@
 		<div class="form-group">
 			<label for="alamat_lok" class="control-label">Alamat</label>
 			
-			<textarea name="alamat_lok" class="form-control" id="alamat_lok"></textarea>
+			<textarea name="alamat_lok" class="form-control" required="" id="alamat_lok"></textarea>
 		</div>
 		<div class="form-group">
-			<label for="time_end_lok" class="control-label">Masa Berlaku</label>
+			<label for="time_end_lok" class="control-label" >Masa Berlaku</label>
 			
 			<div class="input-group">
 				<div class="input-group-addon">
 					<i class="fa fa-calendar"></i>
 				</div>
-				<input class="form-control datepicker" name="time_end_lok" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text">
+				<input class="form-control datepicker"  required="" name="time_end_lok" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text">
 			</div>
 		</div>
 		<div class="form-group">

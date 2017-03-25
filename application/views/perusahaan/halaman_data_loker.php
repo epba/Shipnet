@@ -1,3 +1,4 @@
+<?php echo $this->session->flashdata('notifikasi'); ?>
 <div class="row">
   <div class="col-md-12">
     <div class="box box-solid">
@@ -22,11 +23,11 @@
               <td><?php echo $val->judul_lok ?></td>
               <td><?php echo $val->time_end_lok ?></td>
               <td>
-                <a href="<?php echo site_url('loker/edit/'.$val->id_lok); ?>" class="btn btn-success btn-xs" data-toggle="tooltip" title="Detail"><i class="fa fa-search "></i>
+                <a href="<?php echo site_url('web_perusahaan/edit/'.$val->id_lok); ?>" class="btn btn-success btn-xs" data-toggle="tooltip" title="Detail"><i class="fa fa-search "></i>
                 </a> 
-                <a href="<?php echo site_url('loker/remove/'.$val->id_lok); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Ubah"><i class="fa fa-edit "></i>
+                <a href="<?php echo site_url('web_perusahaan/remove/'.$val->id_lok); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Ubah"><i class="fa fa-edit "></i>
                 </a>
-                <a href="<?php echo site_url('loker/remove/'.$val->id_lok); ?>" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash "></i>
+                <a href="<?php echo site_url('web_perusahaan/remove/'.$val->id_lok); ?>" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Hapus"><i class="fa fa-trash "></i>
                 </a>
               </td>
             </tr>

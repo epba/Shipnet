@@ -48,9 +48,6 @@ class Web_perusahaan extends CI_Controller {
 		$this->form_validation->set_rules('judul_lok','Judul Lokoer','required');
 		$this->form_validation->set_rules('isi_lok','Konten Loker','required');
 		$this->form_validation->set_rules('time_end_lok','Masa Berlaku','required');
-		$this->form_validation->set_rules('lng_lok','Longitude','required');
-		$this->form_validation->set_rules('lat_lok','Latitude','required');
-
 		if($this->form_validation->run())     
 		{   
 			$data_loker = array(
@@ -80,13 +77,14 @@ class Web_perusahaan extends CI_Controller {
 						if ( ! $this->upload->do_upload("foto_lok"))
 						{
 							$error_upload = array('error' => $this->upload->display_errors());
-							echo "sukses add data without foto";
-							var_dump($error);
+							$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
+							redirect('Web_perusahaan/data_loker','refresh');
 						}
 						//jika sukses upload
 						else
 						{ 
-							echo "sukses full";
+							$this->session->set_flashdata('notifikasi', $this->notif->sukses_all());
+							redirect('Web_perusahaan/data_loker','refresh');
 						}
 					}
 					else {
