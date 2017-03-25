@@ -34,14 +34,83 @@ class Web_perusahaan extends CI_Controller {
 		$this->template_persusahaan($data);
 	}
 
-	public function form_add_loker()
+	public function form_loker()
 	{
-		$data['title']		= "Tambah Data Loker";
-		$data['halaman']	= "perusahaan/form_tambah_loker";
+		if ($this->uri->segment(3) == "add") {
+			$data['title']		= "Tambah Data Loker";
+			$data['halaman']	= "perusahaan/form_loker";
+		}
 		$this->template_persusahaan($data);
 	}
 
-}
+	public function tampung_data_add_loker()
+	{
+		$this->form_validation->set_rules('judul_lok','Judul Lokoer','required');
+		$this->form_validation->set_rules('isi_lok','Konten Loker','required');
+		$this->form_validation->set_rules('time_end_lok','Masa Berlaku','required');
+		$this->form_validation->set_rules('lng_lok','Longitude','required');
+		$this->form_validation->set_rules('lat_lok','Latitude','required');
 
-/* End of file institusi.php */
+		if($this->form_validation->run())     
+		{   
+			$data_loker = array(
+				'id_pengirim_lok' => $this->session->userdata('data_login_perusahaan')['id_per'],
+				'judul_lok' => addslashes($this->input->post('judul_lok')),
+				'isi_lok' => addslashes($this->input->post('isi_lok')),
+				'lng_lok' => addslashes($this->input->post('lng_lok')),
+				'lat_lok' => addslashes($this->input->post('lat_lok')),
+				'alamat_lok' => addslashes($this->input->post('alamat_lok')),
+				'time_lok' => date("l, j  F Y"),
+				'time_end_lok' => date_format(date_create($this->input->post('time_end_lok')),"l, j  F Y"),
+				'verifikasi_lok' => "0"
+				);
+
+				if (!empty($_FILES['foto_lok']['name'])) // form mengandung foto
+				{
+					$extensi = explode("/",$_FILES['foto_lok']['type']);
+					$config['upload_path'] 	 = './assets/upload/perusahaan';
+					$config['allowed_types'] = 'jpg|png|jpeg';	
+					$config['file_name'] 	 = "Loker_".$this->session->userdata('data_login_perusahaan')['nama_per']."_".date("ymdwhis").".".$extensi[1];
+
+					$this->upload->initialize($config);
+					$kirim_data = $this->M_perusahaan->proses_tambah_loker(array_merge($data_loker,array('foto_lok' => $config['file_name'])));
+					if ($kirim_data) {
+						$this->load->library('upload', $config);
+						//jika gagal upload
+						if ( ! $this->upload->do_upload("foto_lok"))
+						{
+							$error_upload = array('error' => $this->upload->display_errors());
+							echo "sukses add data without foto";
+							var_dump($error);
+						}
+						//jika sukses upload
+						else
+						{ 
+							echo "sukses full";
+						}
+					}
+					else {
+						echo "gagal save";
+					}
+				}
+				else { // form tdk mengandung foto
+					$kirim_data = $this->M_perusahaan->proses_tambah_loker($data_loker);
+					if ($kirim_data) {
+						echo "sukses";
+					}
+					else
+					{
+						echo "gagal";
+					}
+				}
+			}
+			else
+			{
+				echo validation_errors();
+			}
+		}
+	}
+
+
+	/* End of file institusi.php */
 /* Location: ./application/controllers/institusi.php */

@@ -19,13 +19,15 @@
 			<tbody>
 				<?php foreach ($perusahaan as $no => $perusahaan): ?>
 					<tr>
-						<td><?php echo $no+1; ?></td>
+						<td><?php echo ++$no; ?></td>
 						<td><?php echo $perusahaan->nama_per; ?></td>
 						<td>
-							<a class="btn btn-social-icon bg-olive btn-xs" data-toggle="modal" data-target="#<?php echo $perusahaan->id_per; ?>"><i class="fa fa-search"></i></a>
-
-							<a class="btn btn-social-icon btn-danger btn-xs" data-toggle="modal" data-target="#<?php echo $perusahaan->id_per; ?>_hapus"><i class="fa fa-trash"></i></a>
-
+							<span data-toggle="tooltip" title="Detail">
+								<a class="btn btn-social-icon bg-olive btn-xs" data-toggle="modal" data-target="#<?php echo $perusahaan->id_per; ?>"><i class="fa fa-search"></i></a>
+							</span>
+							<span data-toggle="tooltip" title="Hapus">
+								<a class="btn btn-social-icon btn-danger btn-xs" data-toggle="modal" data-target="#<?php echo $perusahaan->id_per; ?>_hapus"><i class="fa fa-trash"></i></a>
+							</span>
 							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detail" aria-hidden="true" id="<?php echo $perusahaan->id_per;?>">
 								<div class="modal-dialog modal-md">
 									<div class="modal-content">
