@@ -166,7 +166,7 @@ class Web_admin extends CI_Controller {
 								<i class="icon fa fa-info"></i>
 								Info
 							</h4>
-							Terdapat kesalahan saat simpan data.'.$this->db->last_query().'
+							Terdapat kesalahan saat simpan data
 						</div>');
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}

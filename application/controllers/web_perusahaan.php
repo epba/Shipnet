@@ -9,6 +9,7 @@ class Web_perusahaan extends CI_Controller {
 		if (empty($this->session->userdata('data_login_perusahaan'))) {
 			redirect('web_login/form/per','refresh');
 		}
+		$this->load->model('M_perusahaan');
 	}
 
 
@@ -22,6 +23,21 @@ class Web_perusahaan extends CI_Controller {
 	{
 		$data['title']		= "Beranda";
 		$data['halaman']	= "perusahaan/halaman_beranda";
+		$this->template_persusahaan($data);
+	}
+
+	public function data_loker()
+	{
+		$data['title']		= "Data Loker";
+		$data['halaman']	= "perusahaan/halaman_data_loker";
+		$data['loker']		= $this->M_perusahaan->get_data_loker();
+		$this->template_persusahaan($data);
+	}
+
+	public function form_add_loker()
+	{
+		$data['title']		= "Tambah Data Loker";
+		$data['halaman']	= "perusahaan/form_tambah_loker";
 		$this->template_persusahaan($data);
 	}
 
