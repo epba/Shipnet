@@ -83,7 +83,7 @@ class Web_perusahaan extends CI_Controller {
 						//jika sukses upload
 						else
 						{ 
-							$this->session->set_flashdata('notifikasi', $this->notif->sukses_all());
+							$this->session->set_flashdata('notifikasi', $this->notif->sukses_dengan_foto());
 							redirect('Web_perusahaan/data_loker','refresh');
 						}
 					}
@@ -94,7 +94,8 @@ class Web_perusahaan extends CI_Controller {
 				else { // form tdk mengandung foto
 					$kirim_data = $this->M_perusahaan->proses_tambah_loker($data_loker);
 					if ($kirim_data) {
-						echo "sukses";
+						$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_upload());
+						redirect('Web_perusahaan/data_loker','refresh');
 					}
 					else
 					{
