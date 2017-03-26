@@ -125,49 +125,19 @@ class Web_admin extends CI_Controller {
 					if ( ! $this->upload->do_upload("logo"))
 					{
 						$error_upload = array('error' => $this->upload->display_errors());
-						$this->session->set_flashdata('notif_add', '
-							<div class="alert alert-danger alert-dismissible">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									×
-								</button>
-								<h4>
-									<i class="icon fa fa-info"></i>
-									Info
-								</h4>
-								Penambahan data Berhasil, tapi logo gagal. Silahkan edit foto secara manual pada profil'.$simpan_sebagai.'<p>'.$error_upload['error'].'
-							</div>');
+						$this->session->set_flashdata('notif_add', $this->notif->sukses_tanpa_foto($error_upload));
 						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 					}
 					//jika sukses upload
 					else
 					{ 
-						$this->session->set_flashdata('notif_add', '
-							<div class="alert alert-info alert-dismissible">
-								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-									×
-								</button>
-								<h4>
-									<i class="icon fa fa-info"></i>
-									Info
-								</h4>
-								Penambahan data sukses DENGAN LOGO.<p> 
-							</div>');
+						$this->session->set_flashdata('notif_add', $this->notif->sukses_add());
 						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 					}
 				}
 				else // gagal menyimpan data ke db
 				{
-					$this->session->set_flashdata('notif_add', '
-						<div class="alert alert-danger alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-								×
-							</button>
-							<h4>
-								<i class="icon fa fa-info"></i>
-								Info
-							</h4>
-							Terdapat kesalahan saat simpan data
-						</div>');
+					$this->session->set_flashdata('notif_add', $this->notif->fail());
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}
 			}
@@ -176,49 +146,20 @@ class Web_admin extends CI_Controller {
 				$kirim_data = $this->M_admin->proses_tambah_data($simpan_sebagai,array_merge($data_general, $data_spesifik));
 				if($kirim_data) //simpan data ke db
 				{ 
-					$this->session->set_flashdata('notif_add', '
-						<div class="alert alert-info alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-								×
-							</button>
-							<h4>
-								<i class="icon fa fa-info"></i>
-								Info
-							</h4>
-							Penambahan data sukses
-						</div>');
+					$this->session->set_flashdata('notif_add', $this->notif->sukses_add());
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}
 				else
 				{
-					$this->session->set_flashdata('notif_add', '
-						<div class="alert alert-danger alert-dismissible">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-								×
-							</button>
-							<h4>
-								<i class="icon fa fa-info"></i>
-								Info
-							</h4>
-							Terdapat duplikasi username sehingga penyimpanan data baru gagal.
-						</div>');
+					$this->session->set_flashdata('notif_add', $this->notif->fail());
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');	
 				}
 			}
 		}
 		else 
 		{
-			$this->session->set_flashdata('notif_add', '
-				<div class="alert alert-danger alert-dismissible">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-						×
-					</button>
-					<h4>
-						<i class="icon fa fa-info"></i>
-						Info
-					</h4>
-					Gagal tambah data.'.validation_errors().'
-				</div>');
+			$error = validation_errors();
+			$this->session->set_flashdata('notif_add', $this->notif->validasi($error));
 			redirect('web_admin/form/'.$simpan_sebagai,'refresh');
 		}
 	}
@@ -226,20 +167,12 @@ class Web_admin extends CI_Controller {
 	public function hapus_data($id,$prev_url)
 	{
 		if($this->M_admin->proses_hapus($id,$prev_url) == "true"){
-			$this->session->set_flashdata('notif_hapus', '
-				<div class="alert alert-info alert-dismissible">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-					<h4><i class="icon fa fa-info"></i> Info</h4>
-					Penghapusan data sukses.
-				</div>');
+			
+			$this->session->set_flashdata('notif_hapus', $this->notif->sukses_hapus());
 			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 		else {
-			$this->session->set_flashdata('notif_hapus', '<div class="alert alert-danger alert-dismissible">
-				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				<h4><i class="icon fa fa-close"></i> Info</h4>
-				Gagal menghapus data.
-			</div>');
+			$this->session->set_flashdata('notif_hapus', $this->notif->fail_hapus());
 			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 	}

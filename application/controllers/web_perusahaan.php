@@ -45,71 +45,76 @@ class Web_perusahaan extends CI_Controller {
 
 	public function tampung_data_add_loker()
 	{
-		$this->form_validation->set_rules('judul_lok','Judul Lokoer','required');
+		$this->form_validation->set_rules('judul_lok','Judul Loker','required|min_length[10]');
 		$this->form_validation->set_rules('isi_lok','Konten Loker','required');
 		$this->form_validation->set_rules('time_end_lok','Masa Berlaku','required');
 		if($this->form_validation->run())     
 		{   
 			$data_loker = array(
-				'id_pengirim_lok' => $this->session->userdata('data_login_perusahaan')['id_per'],
-				'judul_lok' => addslashes($this->input->post('judul_lok')),
-				'isi_lok' => addslashes($this->input->post('isi_lok')),
-				'lng_lok' => addslashes($this->input->post('lng_lok')),
-				'lat_lok' => addslashes($this->input->post('lat_lok')),
-				'alamat_lok' => addslashes($this->input->post('alamat_lok')),
-				'time_lok' => date("l, j  F Y"),
-				'time_end_lok' => date_format(date_create($this->input->post('time_end_lok')),"l, j  F Y"),
-				'verifikasi_lok' => "0"
+				'id_pengirim_lok'	=> $this->session->userdata('data_login_perusahaan')['id_per'],
+				'judul_lok' 		=> addslashes($this->input->post('judul_lok')),
+				'isi_lok'			=> addslashes($this->input->post('isi_lok')),
+				'lng_lok'			=> addslashes($this->input->post('lng_lok')),
+				'lat_lok'			=> addslashes($this->input->post('lat_lok')),
+				'alamat_lok' 		=> addslashes($this->input->post('alamat_lok')),
+				'time_lok' 			=> date("l, j  F Y"),
+				'time_end_lok' 		=> date_format(date_create($this->input->post('time_end_lok')),"l, j  F Y"),
+				'verifikasi_lok' 	=> "0"
 				);
+			// form mengandung foto
+			if (!empty($_FILES['foto_lok']['name'])) 
+			{
+				$extensi 				 = explode("/",$_FILES['foto_lok']['type']);
+				$config['upload_path'] 	 = './assets/upload/perusahaan';
+				$config['allowed_types'] = 'jpg|png|jpeg';	
+				$config['file_name'] 	 = "Loker_".$this->session->userdata('data_login_perusahaan')['nama_per']."_".date("ymdwhis").".".$extensi[1];
 
-				if (!empty($_FILES['foto_lok']['name'])) // form mengandung foto
-				{
-					$extensi = explode("/",$_FILES['foto_lok']['type']);
-					$config['upload_path'] 	 = './assets/upload/perusahaan';
-					$config['allowed_types'] = 'jpg|png|jpeg';	
-					$config['file_name'] 	 = "Loker_".$this->session->userdata('data_login_perusahaan')['nama_per']."_".date("ymdwhis").".".$extensi[1];
-
-					$this->upload->initialize($config);
-					$kirim_data = $this->M_perusahaan->proses_tambah_loker(array_merge($data_loker,array('foto_lok' => $config['file_name'])));
-					if ($kirim_data) {
-						$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+				$kirim_data = $this->M_perusahaan->proses_tambah_loker(array_merge($data_loker,array('foto_lok' => $config['file_name'])));
+				if ($kirim_data) {
+					$this->load->library('upload', $config);
 						//jika gagal upload
-						if ( ! $this->upload->do_upload("foto_lok"))
-						{
-							$error_upload = array('error' => $this->upload->display_errors());
-							$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
-							redirect('Web_perusahaan/data_loker','refresh');
-						}
-						//jika sukses upload
-						else
-						{ 
-							$this->session->set_flashdata('notifikasi', $this->notif->sukses_dengan_foto());
-							redirect('Web_perusahaan/data_loker','refresh');
-						}
-					}
-					else {
-						echo "gagal save";
-					}
-				}
-				else { // form tdk mengandung foto
-					$kirim_data = $this->M_perusahaan->proses_tambah_loker($data_loker);
-					if ($kirim_data) {
-						$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_upload());
+					if ( ! $this->upload->do_upload("foto_lok"))
+					{
+						$error_upload = array('error' => $this->upload->display_errors());
+						$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
 						redirect('Web_perusahaan/data_loker','refresh');
 					}
+					//jika sukses upload
 					else
-					{
-						echo "gagal";
+					{ 
+						$this->session->set_flashdata('notifikasi', $this->notif->sukses_add());
+						redirect('Web_perusahaan/data_loker','refresh');
 					}
 				}
+				else {
+					$this->session->set_flashdata('notifikasi', $this->notif->fail());
+					redirect('Web_perusahaan/data_loker','refresh');
+				}
 			}
-			else
-			{
-				echo validation_errors();
+			// form tdk mengandung foto
+			else { 
+				$kirim_data = $this->M_perusahaan->proses_tambah_loker($data_loker);
+				if ($kirim_data) {
+					$this->session->set_flashdata('notifikasi', $this->notif->sukses_add());
+					redirect('Web_perusahaan/data_loker','refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('notifikasi', $this->notif->fail());
+					redirect('Web_perusahaan/data_loker','refresh');
+				}
 			}
 		}
+		else
+		{
+			$error = validation_errors();
+			$this->session->set_flashdata('notifikasi', $this->notif->validasi($error));
+			redirect('Web_perusahaan/form_loker/add','refresh');
+		}
 	}
+}
 
 
-	/* End of file institusi.php */
+/* End of file institusi.php */
 /* Location: ./application/controllers/institusi.php */

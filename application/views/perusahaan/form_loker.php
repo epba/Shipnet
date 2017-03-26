@@ -1,3 +1,4 @@
+<?php echo $this->session->flashdata('notifikasi'); ?>
 <div class="box box-primary">
 	<div class="box-header">
 	</div>
