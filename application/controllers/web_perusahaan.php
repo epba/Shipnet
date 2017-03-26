@@ -65,9 +65,9 @@ class Web_perusahaan extends CI_Controller {
 			if (!empty($_FILES['foto_lok']['name'])) 
 			{
 				$extensi 				 = explode("/",$_FILES['foto_lok']['type']);
-				$config['upload_path'] 	 = './assets/upload/perusahaan';
+				$config['upload_path'] 	 = './assets/upload/loker';
 				$config['allowed_types'] = 'jpg|png|jpeg';	
-				$config['file_name'] 	 = "Loker_".$this->session->userdata('data_login_perusahaan')['nama_per']."_".date("ymdwhis").".".$extensi[1];
+				$config['file_name'] 	 = $data_loker['id_pengirim_lok']."_".$this->session->userdata('data_login_perusahaan')['nama_per']."_".date("ymdwhis").".".$extensi[1];
 
 				$this->upload->initialize($config);
 				$kirim_data = $this->M_perusahaan->proses_tambah_loker(array_merge($data_loker,array('foto_lok' => $config['file_name'])));
@@ -111,6 +111,20 @@ class Web_perusahaan extends CI_Controller {
 			$error = validation_errors();
 			$this->session->set_flashdata('notifikasi', $this->notif->validasi($error));
 			redirect('Web_perusahaan/form_loker/add','refresh');
+		}
+	}
+
+	public function hapus_loker()
+	{
+		$id_loker 	= $this->uri->segment(3);
+		$foto_loker = $this->uri->segment(4);
+		if($this->M_perusahaan->proses_hapus_loker($id_loker,$foto_loker)){
+			$this->session->set_flashdata('notifikasi', $this->notif->sukses_hapus());
+			redirect('Web_perusahaan/data_loker','refresh');
+		}
+		else {
+			$this->session->set_flashdata('notifikasi', $this->notif->fail_hapus());
+			redirect('Web_perusahaan/data_loker','refresh');
 		}
 	}
 }
