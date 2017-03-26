@@ -67,7 +67,7 @@ class Web_admin extends CI_Controller {
 		$new_id	= $this->M_admin->get_max_id_user($simpan_sebagai);
 
 		$this->load->library('form_validation');
-		$this->form_validation->set_rules('nama','Nama '.$simpan_sebagai,'required');
+		$this->form_validation->set_rules('nama','Nama '.$simpan_sebagai,'required|min_length[4]');
 		$this->form_validation->set_rules('username','Username '.$simpan_sebagai,'required|min_length[3]');
 		$this->form_validation->set_rules('cp','Contact','required|max_length[14]');
 		$this->form_validation->set_rules('email','Email','required|valid_email');

@@ -46,7 +46,8 @@ class Web_perusahaan extends CI_Controller {
 	public function tampung_data_add_loker()
 	{
 		$this->form_validation->set_rules('judul_lok','Judul Loker','required|min_length[10]');
-		$this->form_validation->set_rules('isi_lok','Konten Loker','required');
+		$this->form_validation->set_rules('isi_lok','Konten Loker','required|min_length[30]');
+		$this->form_validation->set_rules('alamat_lok','Isikan Alamat Loker','required|min_length[10]');
 		$this->form_validation->set_rules('time_end_lok','Masa Berlaku','required');
 		if($this->form_validation->run())     
 		{   
