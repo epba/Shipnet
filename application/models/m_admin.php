@@ -33,12 +33,29 @@ class M_admin extends CI_Model {
 	{
 		$img			= $this->uri->segment(5);
 		$id_tabel     	= ($tabel == "sekolah") ? "id_sklh" : "id_per";
-		$this->db->where($id_tabel, $id);
-		if ($this->db->delete($tabel)) {
-			if(file_exists("assets/upload/".$tabel."/".$img)){
-				@unlink("assets/upload/".$tabel."/".$img);
+		switch ($tabel) {
+			case 'perusahaan':
+
+			$this->db->select('foto_lok');
+			$loker	= $this->db->get_where("loker",array("id_pengirim_lok" => $id))->result();
+			foreach ($loker as $key) {
+				@unlink("assets/upload/loker/".$key->foto_lok);
 			}
-			return true;
+
+			$this->db->where($id_tabel, $id);
+			$delete = $this->db->delete($tabel);
+			if ($delete) {
+				if(file_exists("assets/upload/".$tabel."/".$img)){
+					@unlink("assets/upload/".$tabel."/".$img);
+				}
+				return true;
+			}
+
+			break;
+
+			default:
+					# code...
+			break;
 		}
 	}
 
