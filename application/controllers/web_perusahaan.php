@@ -68,7 +68,7 @@ class Web_perusahaan extends CI_Controller {
 				$extensi 				 = explode("/",$_FILES['foto_lok']['type']);
 				$config['upload_path'] 	 = './assets/upload/loker';
 				$config['allowed_types'] = 'jpg|png|jpeg';	
-				$config['file_name'] 	 = $data_loker['id_pengirim_lok']."_".$this->session->userdata('data_login_perusahaan')['nama_per']."_".date("ymdwhis").".".$extensi[1];
+				$config['file_name'] 	 = $data_loker['id_pengirim_lok']."_".date("ymdwhis").".".$extensi[1];
 
 				$this->upload->initialize($config);
 				$kirim_data = $this->M_perusahaan->proses_tambah_loker(array_merge($data_loker,array('foto_lok' => $config['file_name'])));

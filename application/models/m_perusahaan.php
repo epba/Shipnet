@@ -23,8 +23,8 @@ class M_perusahaan extends CI_Model {
 		$this->db->where('id_lok', $id);
 		$hps = $this->db->delete('loker');
 		if ($hps) {
-			if(file_exists("assets/upload/loker/".$img)){
-				@unlink("assets/upload/loker/".$img);
+			if(file_exists("assets/upload/loker"."/".$img)){
+				@unlink("assets/upload/loker"."/".$img);
 			}
 			return true;
 		}
