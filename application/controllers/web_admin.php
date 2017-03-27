@@ -52,7 +52,7 @@
 		{
 			$acc = $this->M_admin->proses_acc_loker($id);
 			if ($acc) {
-				$this->session->set_flashdata('notif_update', $this->notif->sukses_edit());
+				$this->session->set_flashdata('notifikasi', $this->notif->sukses_edit());
 				redirect('web_admin/data_loker','refresh');	
 			}
 		}
@@ -142,19 +142,19 @@
 					if ( ! $this->upload->do_upload("logo"))
 					{
 						$error_upload = array('error' => $this->upload->display_errors());
-						$this->session->set_flashdata('notif_add', $this->notif->sukses_tanpa_foto($error_upload));
+						$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
 						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 					}
 					//jika sukses upload
 					else
 					{ 
-						$this->session->set_flashdata('notif_add', $this->notif->sukses_add());
+						$this->session->set_flashdata('notifikasi', $this->notif->sukses_add());
 						redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 					}
 				}
 				else // gagal menyimpan data ke db
 				{
-					$this->session->set_flashdata('notif_add', $this->notif->fail());
+					$this->session->set_flashdata('notifikasi', $this->notif->fail());
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}
 			}
@@ -163,12 +163,12 @@
 				$kirim_data = $this->M_admin->proses_tambah_data($simpan_sebagai,array_merge($data_general, $data_spesifik));
 				if($kirim_data) //simpan data ke db
 				{ 
-					$this->session->set_flashdata('notif_add', $this->notif->sukses_add());
+					$this->session->set_flashdata('notifikasi', $this->notif->sukses_add());
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');
 				}
 				else
 				{
-					$this->session->set_flashdata('notif_add', $this->notif->fail());
+					$this->session->set_flashdata('notifikasi', $this->notif->fail());
 					redirect('web_admin/data_'.$simpan_sebagai,'refresh');	
 				}
 			}
@@ -176,7 +176,7 @@
 		else 
 		{
 			$error = validation_errors();
-			$this->session->set_flashdata('notif_add', $this->notif->validasi($error));
+			$this->session->set_flashdata('notifikasi', $this->notif->validasi($error));
 			redirect('web_admin/form/'.$simpan_sebagai,'refresh');
 		}
 	}
@@ -185,11 +185,11 @@
 	{
 		if($this->M_admin->proses_hapus($id,$prev_url) == "true"){
 			
-			$this->session->set_flashdata('notif_hapus', $this->notif->sukses_hapus());
+			$this->session->set_flashdata('notifikasi', $this->notif->sukses_hapus());
 			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 		else {
-			$this->session->set_flashdata('notif_hapus', $this->notif->fail_hapus());
+			$this->session->set_flashdata('notifikasi', $this->notif->fail_hapus());
 			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 	}

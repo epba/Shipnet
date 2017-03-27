@@ -1,5 +1,4 @@
-<?php echo $this->session->flashdata('notif_add'); ?>
-<?php echo $this->session->flashdata('notif_hapus'); ?>
+<?php echo $this->session->flashdata('notifikasi'); ?>
 
 <div class="box box-danger">
 	<div class="box-header">
@@ -23,10 +22,12 @@
 						<td><?php echo $no+1; ?> </td>
 						<td><?php echo $data_sekolah->nama_sklh; ?></td>
 						<td>
-							<a class="btn btn-social-icon bg-olive btn-xs" data-toggle="modal" data-target="#<?php echo $data_sekolah->id_sklh; ?>"><i class="fa fa-search"></i></a>
-
-							<a class="btn btn-social-icon btn-danger btn-xs" data-toggle="modal" data-target="#<?php echo $data_sekolah->id_sklh; ?>_hapus"><i class="fa fa-trash"></i></a>
-
+						<span data-toggle="tooltip" title="Detail">
+								<a class="btn btn-social-icon bg-olive btn-xs" data-toggle="modal" data-target="#<?php echo $data_sekolah->id_sklh; ?>"><i class="fa fa-search"></i></a>
+							</span>
+							<span data-toggle="tooltip" title="Hapus">
+								<a class="btn btn-social-icon btn-danger btn-xs" data-toggle="modal" data-target="#<?php echo $data_sekolah->id_sklh; ?>_hapus"><i class="fa fa-trash"></i></a>
+							</span>
 							<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="detail" aria-hidden="true" id="<?php echo $data_sekolah->id_sklh;?>">
 								<div class="modal-dialog modal-md">
 									<div class="modal-content">

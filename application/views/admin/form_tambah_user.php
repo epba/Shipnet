@@ -2,7 +2,7 @@
 $uri  = $this->uri->segment(3);
 $name = ($uri == "sekolah") ? "Nama Sekolah" : "Nama Perusahaan" ;
 ?>
-<?php echo $this->session->flashdata('notif_add'); ?>
+<?php echo $this->session->flashdata('notifikasi'); ?>
 
 <div class="row">
   <div class="col-md-12">
