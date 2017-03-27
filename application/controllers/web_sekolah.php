@@ -77,19 +77,92 @@ class Web_sekolah extends CI_Controller {
 		}
 	}
 
-	public function data_perusahaan()
+	public function upload_alumni()
 	{
-		$data['title']		= "Data Perusahaan";
-		$data['halaman']	= "sekolah/halaman_data_perusahaan";
-		$this->template_sekolah($data);
-	}
+		$alumni = $this->input->post('excel');
+		$config['upload_path']      = 'assets/upload/sekolah';
+		$config['allowed_types']    = 'xls|xlsx';
+		$config['file_name']        = date('y_h_i_s');
 
-	public function data_loker()
-	{
-		$data['title']		= "Data Loker";
-		$data['halaman']	= "sekolah/halaman_data_loker";
-		$this->template_sekolah($data);
-	}
+		$this->upload->initialize($config);     
+		$this->load->library('upload', $config);
+
+		if ( ! $this->upload->do_upload('excel'))
+		{
+			$error = array('error' => $this->upload->display_errors());
+			var_dump($error);
+		}
+		else
+		{
+			$a = $this->upload->data();
+            $file = 'upload/'.$a['orig_name']; //get excell file name
+            $this->load->library('Excel');
+            $objPHPExcel = PHPExcel_IOFactory::load($file); //load file excell from $file           
+            $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection(); //collect data
+            
+            //extract to a PHP readable array format
+
+            foreach ($cell_collection as $cell) 
+            {
+            	$kolom = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
+            	$baris = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
+            	$data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getValue();
+            	if ($baris == 1) {
+            		$header[$baris][$kolom] = $data_value;
+            	} else {
+            		$arr_data[$baris][$kolom] = $data_value;
+            	}
+            }
+            $data['header'] = $header;
+            $data['values'] = $arr_data;
+
+            foreach ($data['values'] as $al)
+            {
+            	$alu['username_al'] = $al['A'];
+            	$alu['nama_al'] 	= MD5($al['A']);
+            	$alu['thn_lulus_al']= $al['B'];
+
+            	$this->db->where('al_username', $alu['al_username']);
+            	$c = $this->db->get('alumni');
+
+            	if($c->num_rows() == null) {
+            		$masuk = $this->db->insert('alumni', $alu); 
+            	}
+            	else
+            	{
+            		$gagal['NO'] = array('nim' => $al['A'],'nama' => $al['B']);  
+            	}              
+            }
+        }
+
+        if ($masuk) {
+        	@unlink($file);
+
+        	$this->session->set_flashdata("k", "<div class=\"alert alert-success\">Berhasil add alumni</div>");
+        	redirect('dashboard/alumni'); 
+        }
+        else
+        {
+        	$k['a'] = $al;  
+        	$this->session->set_flashdata("k", "<div class=\"alert alert-danger\">gagal add alumni</div>");
+        	redirect('dashboard/alumni'); 
+        }
+    }
+    
+
+    public function data_perusahaan()
+    {
+    	$data['title']		= "Data Perusahaan";
+    	$data['halaman']	= "sekolah/halaman_data_perusahaan";
+    	$this->template_sekolah($data);
+    }
+
+    public function data_loker()
+    {
+    	$data['title']		= "Data Loker";
+    	$data['halaman']	= "sekolah/halaman_data_loker";
+    	$this->template_sekolah($data);
+    }
 
 }
 
