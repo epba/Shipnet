@@ -19,7 +19,7 @@ Class Notif {
 
 	function sukses_edit()
 	{
-		$notif = $this->sukses_open.$this->button_close.$this->info.'Edit data sukses.'.$this->closing;
+		$notif = $this->sukses_open.$this->button_close.$this->info.'Data telah diperbarui.'.$this->closing;
 		return $notif;
 	}
 

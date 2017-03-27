@@ -2,12 +2,32 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Web_sekolah extends CI_Controller {
+	public function __construct()
+	{
+		parent::__construct();
+		if (empty($this->session->userdata('data_login_sekolah'))) {
+			redirect('web_login/form/sklh','refresh');
+		}
+	}
+
+	public function template_sekolah($data)
+	{
+		$kumpulan_data	=	array_merge(array("menu" => "sekolah/menu","logout" => "web_logout/sekolah"),$data);
+		$this->load->view('template', $kumpulan_data);
+	}
 
 	public function beranda()
 	{
 		$data['title']		= "Beranda";
-		$data['halaman']	= "institusi/halaman_beranda";
-		$this->load->view('template',$data);
+		$data['halaman']	= "sekolah/halaman_beranda";
+		$this->template_sekolah($data);
+	}
+
+	public function data_alumni()
+	{
+		$data['title']		= "Data Alumni";
+		$data['halaman']	= "sekolah/halaman_data_alumni";
+		$this->template_sekolah($data);
 	}
 
 }

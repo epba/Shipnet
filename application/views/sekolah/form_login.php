@@ -31,7 +31,7 @@
       <!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg"><h2>Verifikasi Identitas</h2></p>
-        <?php echo form_open(base_url().'login/data_form/insti'); ?>
+        <?php echo form_open(base_url().'web_login/data_form/sklh'); ?>
         <div class="form-group has-feedback">
           <input type="text" class="form-control" placeholder="Username" name="username" required="">
           <span class="glyphicon glyphicon-user form-control-feedback"></span>

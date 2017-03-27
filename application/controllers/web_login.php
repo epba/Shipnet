@@ -6,8 +6,8 @@ class Web_login extends CI_Controller {
 		parent::__construct();
 		$this->status				= $this->uri->segment(3);
 		$this->sesi_admin		= $this->session->userdata('data_login_admin');
-		$this->sesi_perusahaan= $this->session->userdata('data_login_perusahaan_')['level'];
-		$this->sesi_sekolah	= $this->session->userdata('data_login_sekolah')['level'];
+		$this->sesi_perusahaan= $this->session->userdata('data_login_perusahaan_');
+		$this->sesi_sekolah	= $this->session->userdata('data_login_sekolah');
 		$this->sesi_mahasiswa	= $this->session->userdata('data_login_mahasiswa');
 	}
 

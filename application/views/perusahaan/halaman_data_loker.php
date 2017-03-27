@@ -1,4 +1,6 @@
 <?php echo $this->session->flashdata('notifikasi'); ?>
+<?php echo $this->session->flashdata('notif_update'); ?>
+
 <div class="row">
   <div class="col-md-12">
     <div class="box box-solid">
@@ -69,7 +71,7 @@
                           </div>
                           <div class="modal-body">
                             <div class="box-body box-profile">
-                            <img class="img-responsive" src='<?php echo base_url()."assets/upload/loker/".$val->foto_lok; ?>' alt="No IMG">
+                            <img class="img-responsive" src='<?php echo base_url()."assets/upload/loker/".$val->foto_lok; ?>' alt="NoIMG">
                               <br>
                               <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">

@@ -48,6 +48,15 @@
 			$this->template_admin($data);
 		}
 
+		public function acc_loker($id)
+		{
+			$acc = $this->M_admin->proses_acc_loker($id);
+			if ($acc) {
+				$this->session->set_flashdata('notif_update', $this->notif->sukses_edit());
+				redirect('web_admin/data_loker','refresh');	
+			}
+		}
+
 		public function data_sekolah()
 		{
 			$data['sekolah']	= $this->M_admin->get_sekolah();

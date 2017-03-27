@@ -29,7 +29,19 @@ class M_admin extends CI_Model {
 	public function get_data_loker()
 	{
 		$this->db->from('loker');
+		$this->db->join('perusahaan', 'perusahaan.id_per = loker.id_pengirim_lok');
 		return $this->db->get()->result();
+	}
+
+	public function proses_acc_loker($id)
+	{
+		$this->db->where('id_lok', $id);
+		$update	= $this->db->update('loker', array('verifikasi_lok' => "1", 'verifikasi_by_lok' => $this->session->userdata('data_login_admin')['id_adm']));
+
+		if($update)
+		{
+			return true;
+		}
 	}
 
 	public function proses_tambah_data($tabel,$data)
