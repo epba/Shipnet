@@ -51,7 +51,7 @@ class Web_perusahaan extends CI_Controller {
 	public function tampung_data_loker()
 	{
 		$func_model		= ($this->uri->segment(3) == "add") ? "proses_tambah_loker" : "proses_edit_loker" ;
-		$notif_sukses	= ($this->uri->segment(3) == "add") ? "sukses_Add" : "sukses_edit";
+		$notif_sukses	= ($this->uri->segment(3) == "add") ? "sukses_add" : "sukses_edit";
 		
 		$this->form_validation->set_rules('judul_lok','Judul Loker','required|min_length[10]');
 		$this->form_validation->set_rules('isi_lok','Konten Loker','required|min_length[30]');

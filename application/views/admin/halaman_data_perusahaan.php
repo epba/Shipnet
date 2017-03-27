@@ -1,5 +1,5 @@
-<?php echo $this->session->flashdata('notif_add'); ?>
-<?php echo $this->session->flashdata('notif_hapus'); ?>
+<?php echo $this->session->flashdata('notifikasi'); ?>
+
 
 <div class="box box-danger no-margin">
 	<div class="box-header">

@@ -37,7 +37,6 @@ class M_admin extends CI_Model {
 	{
 		$this->db->where('id_lok', $id);
 		$update	= $this->db->update('loker', array('verifikasi_lok' => "1", 'verifikasi_by_lok' => $this->session->userdata('data_login_admin')['id_adm']));
-
 		if($update)
 		{
 			return true;
