@@ -8,7 +8,7 @@
 		</a>
 	</div>
 	<div class="box-body">
-		<table class="table">
+		<table class="table tbl-all">
 			<thead>
 				<tr>
 					<th>No.</th>
@@ -18,6 +18,7 @@
 			</thead>
 			<tbody>
 				<?php foreach ($perusahaan as $no => $perusahaan): ?>
+					<?php $rujukan = ($perusahaan->add_by == "ADM1") ? "Admin" : "" ; ?>
 					<tr>
 						<td><?php echo ++$no; ?></td>
 						<td><?php echo $perusahaan->nama_per; ?></td>
@@ -60,7 +61,7 @@
 															<b>Website</b><i class="pull-right"><?php echo $perusahaan->web_per; ?></i>
 														</li>
 														<li class="list-group-item">
-															<b>Ditambahkan Oleh</b><i class="pull-right"><?php echo $perusahaan->add_by; ?></i>
+															<b>Ditambahkan Oleh</b><i class="pull-right"><?php echo $rujukan; ?></i>
 														</li>
 													</ul>
 												</div>

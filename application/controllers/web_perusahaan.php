@@ -40,11 +40,19 @@ class Web_perusahaan extends CI_Controller {
 			$data['title']		= "Tambah Data Loker";
 			$data['halaman']	= "perusahaan/form_loker";
 		}
+		elseif ($this->uri->segment(3) == "edit") {
+			$data['title']		= "Edit Data Loker";
+			$data['halaman']	= "perusahaan/form_loker";
+			$data['data_lama']	= $this->M_perusahaan->data_lama_loker($this->uri->segment(4));
+		}
 		$this->template_persusahaan($data);
 	}
 
-	public function tampung_data_add_loker()
+	public function tampung_data_loker()
 	{
+		$func_model		= ($this->uri->segment(3) == "add") ? "proses_tambah_loker" : "proses_edit_loker" ;
+		$notif_sukses	= ($this->uri->segment(3) == "add") ? "sukses_Add" : "sukses_edit";
+		
 		$this->form_validation->set_rules('judul_lok','Judul Loker','required|min_length[10]');
 		$this->form_validation->set_rules('isi_lok','Konten Loker','required|min_length[30]');
 		$this->form_validation->set_rules('alamat_lok','Isikan Alamat Loker','required|min_length[10]');
@@ -53,6 +61,7 @@ class Web_perusahaan extends CI_Controller {
 		{   
 			$data_loker = array(
 				'id_pengirim_lok'	=> $this->session->userdata('data_login_perusahaan')['id_per'],
+				'tmp_lok'			=> $this->session->userdata('data_login_perusahaan')['nama_per'],
 				'judul_lok' 		=> addslashes($this->input->post('judul_lok')),
 				'isi_lok'			=> addslashes($this->input->post('isi_lok')),
 				'lng_lok'			=> addslashes($this->input->post('lng_lok')),
@@ -71,7 +80,7 @@ class Web_perusahaan extends CI_Controller {
 				$config['file_name'] 	 = $data_loker['id_pengirim_lok']."_".date("ymdwhis").".".$extensi[1];
 
 				$this->upload->initialize($config);
-				$kirim_data = $this->M_perusahaan->proses_tambah_loker(array_merge($data_loker,array('foto_lok' => $config['file_name'])));
+				$kirim_data = $this->M_perusahaan->$func_model(array_merge($data_loker,array('foto_lok' => $config['file_name'])));
 				if ($kirim_data) {
 					$this->load->library('upload', $config);
 						//jika gagal upload
@@ -84,7 +93,7 @@ class Web_perusahaan extends CI_Controller {
 					//jika sukses upload
 					else
 					{ 
-						$this->session->set_flashdata('notifikasi', $this->notif->sukses_add());
+						$this->session->set_flashdata('notifikasi', $this->notif->$notif_sukses());
 						redirect('Web_perusahaan/data_loker','refresh');
 					}
 				}
@@ -95,9 +104,9 @@ class Web_perusahaan extends CI_Controller {
 			}
 			// form tdk mengandung foto
 			else { 
-				$kirim_data = $this->M_perusahaan->proses_tambah_loker($data_loker);
+				$kirim_data = $this->M_perusahaan->$func_model($data_loker);
 				if ($kirim_data) {
-					$this->session->set_flashdata('notifikasi', $this->notif->sukses_add());
+					$this->session->set_flashdata('notifikasi', $this->notif->$notif_sukses());
 					redirect('Web_perusahaan/data_loker','refresh');
 				}
 				else

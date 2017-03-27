@@ -17,6 +17,12 @@ Class Notif {
 		return $notif;
 	}
 
+	function sukses_edit()
+	{
+		$notif = $this->sukses_open.$this->button_close.$this->info.'Edit data sukses.'.$this->closing;
+		return $notif;
+	}
+
 	function sukses_tanpa_foto($error_upload)
 	{
 		$notif = $this->sukses_open.$this->button_close.$this->info.'Penambahan data sukses, sedangkan foto gagal disimpan.<p>'.$error_upload['error'].$this->closing;

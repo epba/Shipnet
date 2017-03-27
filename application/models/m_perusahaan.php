@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_perusahaan extends CI_Model {
 
+	public function __construct()
+	{
+		parent::__construct();
+		if (empty($this->session->userdata('data_login_perusahaan'))) {
+			redirect('web_login/form/per','refresh');
+		}
+	}
+
 	public function proses_tambah_loker($data)
 	{
 		if($this->db->insert('loker', $data)){
@@ -28,6 +36,29 @@ class M_perusahaan extends CI_Model {
 			}
 			return true;
 		}
+	}
+
+	public function data_lama_loker($id)
+	{
+		$this->db->where('id_lok', $id);
+		return $this->db->get('loker')->row();
+	}
+
+	public function proses_edit_loker($data)
+	{
+		// hapus foto lama
+		$get_img = $this->db->get_where("loker",array('id_lok' => $this->uri->segment(4)))->row();
+		if(file_exists("assets/upload/loker"."/".$get_img->foto_lok)){
+			@unlink("assets/upload/loker"."/".$get_img->foto_lok);
+		}
+		// hapus foto lama
+		// update db
+		$this->db->where('id_lok', $this->uri->segment(4));
+		$update = $this->db->update("loker", $data);
+		if($update){
+			return true;
+		}
+		// update db
 	}
 }
 

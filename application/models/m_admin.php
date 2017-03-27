@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_admin extends CI_Model {
 
+	public function __construct()
+	{
+		parent::__construct();
+		if (empty($this->session->userdata('data_login_admin'))) {
+			redirect('web_login/form/adm','refresh');
+		}
+	}
+
 	public function get_data_admin()
 	{
 		return $this->db->get('admin')->result();
@@ -16,6 +24,12 @@ class M_admin extends CI_Model {
 	public function get_sekolah()
 	{
 		return $this->db->get("sekolah")->result();
+	}
+
+	public function get_data_loker()
+	{
+		$this->db->from('loker');
+		return $this->db->get()->result();
 	}
 
 	public function proses_tambah_data($tabel,$data)

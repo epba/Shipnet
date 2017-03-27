@@ -1,111 +1,119 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+	<?php
+	defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Web_admin extends CI_Controller {
-	public function __construct()
-	{
-		parent::__construct();
-		if (empty($this->session->userdata('data_login_admin'))) {
-			redirect('web_login/form/adm','refresh');
-		}
-		$this->load->model('M_admin');
-	}
-
-	public function template_admin($data)
-	{
-		$kumpulan_data	=	array_merge(array("menu" => "admin/menu","logout" => "web_logout/admin"),$data);
-		$this->load->view('template', $kumpulan_data);
-	}
-
-	public function beranda()
-	{
-		$data['title']		= "Beranda Admin";
-		$data['halaman']	= "admin/halaman_beranda";
-		$this->template_admin($data);
-	}
-
-	public function data_admin()
-	{
-		$data['admin']		= $this->M_admin->get_data_admin();
-		$data['title']		= "Data Admin";
-		$data['halaman']	= "admin/halaman_data_admin";
-		$this->template_admin($data);
-	}
-
-	public function data_perusahaan()
-	{
-		$data['perusahaan']		= $this->M_admin->get_perusahaan();
-		$data['title']		= "Data Perusahaan";
-		$data['halaman']	= "admin/halaman_data_perusahaan";
-		$this->template_admin($data);
-	}
-
-	public function data_sekolah()
-	{
-		$data['sekolah']	= $this->M_admin->get_sekolah();
-		$data['title']		= "Data Sekolah";
-		$data['halaman']	= "admin/halaman_data_sekolah";
-		$this->template_admin($data);
-	}
-
-	public function form($nama_form)
-	{
-		$data['halaman']	= "admin/form_tambah_user";
-		if ($nama_form == "sekolah") {
-			$data['title']		= "Tambah Data Sekolah";
-			$this->template_admin($data);
-		}
-		elseif ($nama_form == "perusahaan") {
-			$data['title']		= "Tambah Data Perusahaan";
-			$this->template_admin($data);
-		}
-	}
-
-	public function tampung_data_form($simpan_sebagai)
-	{
-		$buntut = ($simpan_sebagai == "sekolah") ?  "sklh": "per";
-		$new_id	= $this->M_admin->get_max_id_user($simpan_sebagai);
-
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('nama','Nama '.$simpan_sebagai,'required|min_length[4]');
-		$this->form_validation->set_rules('username','Username '.$simpan_sebagai,'required|min_length[3]');
-		$this->form_validation->set_rules('cp','Contact','required|max_length[14]');
-		$this->form_validation->set_rules('email','Email','required|valid_email');
-		$this->form_validation->set_rules('alamat','Alamat','required|min_length[5]');
-		$this->form_validation->set_rules('web','Website','');
-		$this->form_validation->set_rules('fax','fax','');
-
-		if($this->form_validation->run()) 
+	class Web_admin extends CI_Controller {
+		public function __construct()
 		{
-			$data_general			= array(
-				'id_'.$buntut		=> $new_id,
-				'nama_'.$buntut		=> addslashes($this->input->post('nama')),
-				'username_'.$buntut	=> addslashes($this->input->post('username')),
-				'cp_'.$buntut		=> addslashes($this->input->post('cp')),
-				'email_'.$buntut	=> addslashes($this->input->post('email')),
-				'fax_'.$buntut		=> addslashes($this->input->post('fax')),
-				'alamat_'.$buntut	=> addslashes($this->input->post('alamat')),
-				'web_'.$buntut		=> addslashes($this->input->post('web')),
-				'password_'.$buntut	=> password_hash("welcome",PASSWORD_BCRYPT)
-				);
-
-			switch ($simpan_sebagai) {
-				case 'sekolah':
-				//Jika url menyatakan sekolah, maka data general ditambah sbb:
-				$data_spesifik		=  array(
-					'level_'.$buntut	=> $this->input->post('level'),
-					);
-				break;
-				case 'perusahaan':
-				//Jika url menyatakan perusahaan, maka data general ditambah sbb:
-				$data_spesifik	=  array(
-					'add_by'	=> $this->session->userdata('data_login_admin')['username_adm'],
-					);
-				break;
-				default:
-					# code...
-				break;
+			parent::__construct();
+			if (empty($this->session->userdata('data_login_admin'))) {
+				redirect('web_login/form/adm','refresh');
 			}
+			$this->load->model('M_admin');
+		}
+
+		public function template_admin($data)
+		{
+			$kumpulan_data	=	array_merge(array("menu" => "admin/menu","logout" => "web_logout/admin"),$data);
+			$this->load->view('template', $kumpulan_data);
+		}
+
+		public function beranda()
+		{
+			$data['title']		= "Beranda Admin";
+			$data['halaman']	= "admin/halaman_beranda";
+			$this->template_admin($data);
+		}
+
+		public function data_admin()
+		{
+			$data['admin']		= $this->M_admin->get_data_admin();
+			$data['title']		= "Data Admin";
+			$data['halaman']	= "admin/halaman_data_admin";
+			$this->template_admin($data);
+		}
+
+		public function data_perusahaan()
+		{
+			$data['perusahaan']		= $this->M_admin->get_perusahaan();
+			$data['title']		= "Data Perusahaan";
+			$data['halaman']	= "admin/halaman_data_perusahaan";
+			$this->template_admin($data);
+		}
+
+		public function data_loker()
+		{
+			$data['loker']	= $this->M_admin->get_data_loker();
+			$data['title']	= "Data Loker";
+			$data['halaman']= "admin/halaman_data_loker";
+			$this->template_admin($data);
+		}
+
+		public function data_sekolah()
+		{
+			$data['sekolah']	= $this->M_admin->get_sekolah();
+			$data['title']		= "Data Sekolah";
+			$data['halaman']	= "admin/halaman_data_sekolah";
+			$this->template_admin($data);
+		}
+
+		public function form($nama_form)
+		{
+			$data['halaman']	= "admin/form_tambah_user";
+			if ($nama_form == "sekolah") {
+				$data['title']		= "Tambah Data Sekolah";
+				$this->template_admin($data);
+			}
+			elseif ($nama_form == "perusahaan") {
+				$data['title']		= "Tambah Data Perusahaan";
+				$this->template_admin($data);
+			}
+		}
+
+		public function tampung_data_form($simpan_sebagai)
+		{
+			$buntut = ($simpan_sebagai == "sekolah") ?  "sklh": "per";
+			$new_id	= $this->M_admin->get_max_id_user($simpan_sebagai);
+
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('nama','Nama '.$simpan_sebagai,'required|min_length[4]');
+			$this->form_validation->set_rules('username','Username '.$simpan_sebagai,'required|min_length[3]');
+			$this->form_validation->set_rules('cp','Contact','required|max_length[14]');
+			$this->form_validation->set_rules('email','Email','required|valid_email');
+			$this->form_validation->set_rules('alamat','Alamat','required|min_length[5]');
+			$this->form_validation->set_rules('web','Website','');
+			$this->form_validation->set_rules('fax','fax','');
+
+			if($this->form_validation->run()) 
+			{
+				$data_general			= array(
+					'id_'.$buntut		=> $new_id,
+					'nama_'.$buntut		=> addslashes($this->input->post('nama')),
+					'username_'.$buntut	=> addslashes($this->input->post('username')),
+					'cp_'.$buntut		=> addslashes($this->input->post('cp')),
+					'email_'.$buntut	=> addslashes($this->input->post('email')),
+					'fax_'.$buntut		=> addslashes($this->input->post('fax')),
+					'alamat_'.$buntut	=> addslashes($this->input->post('alamat')),
+					'web_'.$buntut		=> addslashes($this->input->post('web')),
+					'password_'.$buntut	=> password_hash("welcome",PASSWORD_BCRYPT)
+					);
+
+				switch ($simpan_sebagai) {
+					case 'sekolah':
+				//Jika url menyatakan sekolah, maka data general ditambah sbb:
+					$data_spesifik		=  array(
+						'level_'.$buntut	=> $this->input->post('level'),
+						);
+					break;
+					case 'perusahaan':
+				//Jika url menyatakan perusahaan, maka data general ditambah sbb:
+					$data_spesifik	=  array(
+						'add_by'	=> $this->session->userdata('data_login_admin')['id_adm'],
+						);
+					break;
+					default:
+					# code...
+					break;
+				}
 
 			if (!empty($_FILES['logo']['name'])) // form mengandung foto
 			{
