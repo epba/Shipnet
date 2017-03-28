@@ -19,7 +19,7 @@ $name = ($uri == "sekolah") ? "Nama Sekolah" : "Nama Perusahaan" ;
         </div>
         <div class="form-group">
           <label for="alamat_instansi">Alamat *</label>
-          <textarea class="form-control" placeholder="Alamat Lengkap" required="" minlength="10" rows="5" name="alamat" required=""></textarea>
+          <textarea class="form-control textarea" placeholder="Alamat Lengkap" required="" minlength="10" rows="5" name="alamat" required=""></textarea>
         </div>
         <div class="form-group">
           <label for="no_telp">No. Telp *</label>

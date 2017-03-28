@@ -511,6 +511,10 @@
 <script src="<?php echo base_url();?>assets_b/plugins/datatables/dataTables.bootstrap.min.js"></script>
 <!-- bootstrap datepicker -->
 <script src="<?php echo base_url();?>assets_b/plugins/datepicker/bootstrap-datepicker.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="<?php echo base_url();?>assets_b/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<!-- bootstrap wysihtml5 - text editor -->
+<link rel="stylesheet" href="<?php echo base_url();?>assets_b/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <script>
   $(function () {
     $(".tbl-all").DataTable();
@@ -527,6 +531,7 @@
     autoclose: true,
     format: 'yyyy-mm-dd'
   });
+  $(".textarea").wysihtml5();
 </script>
 </body>
 </html>

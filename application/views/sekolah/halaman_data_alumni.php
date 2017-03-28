@@ -85,7 +85,7 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Batal</button>
-												<a href="<?php echo base_url().'web_sekolah/hapus_data/'.$data_alumni->id_al."/sekolah/".$data_alumni->foto_al; ?>"><button type="button" class="btn btn-outline">Yakin</button>
+												<a href="<?php echo base_url().'web_sekolah/hapus_data/'.$data_alumni->id_al."/".$data_alumni->foto_al; ?>/alumni"><button type="button" class="btn btn-outline">Yakin</button>
 												</a>
 											</div>
 										</div>

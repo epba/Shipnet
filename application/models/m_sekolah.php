@@ -22,9 +22,38 @@ class M_sekolah extends CI_Model {
 		{
 			return true;
 		}
+	}
 
+	public function proses_hapus($id,$tabel)
+	{
+		$id_tabel      = ($tabel == "perusahaan") ? "id_per" : "id_al" ;
+		$this->db->where($id_tabel, $id);
+		$hapus = $this->db->delete($tabel);
+
+		if ($hapus) {
+			if(file_exists("assets/upload/".$tabel."/".$this->uri->segment(4))){
+				@unlink("assets/upload/".$tabel."/".$this->uri->segment(4));
+			}
+			return true;
+		}
+	}
+
+	public function get_perusahaan()
+	{
+		return $this->db->get_where("perusahaan",array("add_by" => $this->session->userdata('data_login_sekolah')['id_sklh']))->result();
+	}
+
+	public function get_max_id_perusahaan()
+	{
+		$str_id        	= "PER";
+		$id_tabel     	= "id_per";
+		$this->db->select("MAX(CONVERT(SUBSTRING_INDEX($id_tabel,'$str_id', -1),INT))+1 as 'num_max'");      
+		$get_num 		= $this->db->get("perusahaan")->row();
+		$num_max_id		= ($get_num->num_max == null) ? "1" :  $get_num->num_max;  
+
+		return $str_id.$num_max_id;
 	}
 }
 
-	/* End of file m_sekolah.php */
+/* End of file m_sekolah.php */
 /* Location: ./application/models/m_sekolah.php */

@@ -33,7 +33,7 @@ elseif ($act == "edit"){
 		</div>
 		<div class="form-group">
 			<label for="isi_lok" class="control-label">Konten</label>
-			<textarea name="isi_lok" class="form-control" id="isi_lok" required="" ><?php echo $isi_lok; ?></textarea>
+			<textarea name="isi_lok" class="form-control textarea" id="isi_lok" required="" ><?php echo $isi_lok; ?></textarea>
 		</div>
 		<div class="form-group">
 			<label for="foto_lok" class="control-label">Foto</label>
@@ -49,7 +49,7 @@ elseif ($act == "edit"){
 		</div>
 		<div class="form-group">
 			<label for="alamat_lok" class="control-label">Alamat</label>
-			<textarea name="alamat_lok" class="form-control" required="" id="alamat_lok"><?php echo $alamat_lok; ?></textarea>
+			<textarea name="alamat_lok" class="form-control textarea" required="" id="alamat_lok"><?php echo $alamat_lok; ?></textarea>
 		</div>
 		<div class="form-group">
 			<label for="time_end_lok" class="control-label" >Masa Berlaku</label>

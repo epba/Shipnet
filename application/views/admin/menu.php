@@ -15,6 +15,6 @@
 </li>
 <li>
   <a href="<?php echo base_url();?>web_admin/data_loker">
-    <i class="fa fa-industry"></i><span>Lowongan Kerja</span>
+    <i class="fa fa-newspaper-o"></i><span>Data Loker</span>
   </a>
 </li>

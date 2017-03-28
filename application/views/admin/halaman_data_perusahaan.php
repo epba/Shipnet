@@ -3,7 +3,7 @@
 
 <div class="box box-danger no-margin">
 	<div class="box-header">
-		<a href="<?php echo site_url(); ?>/web_admin/form/perusahaan">
+		<a href="<?php echo site_url(); ?>web_admin/form/perusahaan">
 			<button class="btn bg-navy btn-md pull-right">Tambah Data</button>
 		</a>
 	</div>

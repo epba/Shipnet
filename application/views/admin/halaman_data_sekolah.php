@@ -2,12 +2,12 @@
 
 <div class="box box-danger">
 	<div class="box-header">
-		<a href="<?php echo site_url(); ?>/web_admin/form/sekolah">
+		<a href="<?php echo site_url(); ?>web_admin/form/sekolah">
 			<button class="btn bg-navy btn-md pull-right">Tambah Data</button>
 		</a>
 	</div>
 	<div class="box-body">
-		<table class="table">
+		<table class="table tbl-all">
 			<thead>
 				<tr>
 					<th>No.</th>

@@ -25,7 +25,7 @@ elseif ($act == "edit"){
 <div class="box box-primary">
 	<div class="box-header">
 	</div>
-	<?php form_open(base_url()."web_sekolah/upload_alumni"); ?>
+	<?php echo form_open_multipart(base_url()."web_sekolah/upload_alumni"); ?>
 	<input type="file" name="excel">
 	<input type="submit">
 	<?php echo form_close(); ?>

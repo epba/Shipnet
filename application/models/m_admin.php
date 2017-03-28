@@ -60,13 +60,31 @@ class M_admin extends CI_Model {
 		$id_tabel     	= ($tabel == "sekolah") ? "id_sklh" : "id_per";
 		switch ($tabel) {
 			case 'perusahaan':
-
+			//hps foto loker
 			$this->db->select('foto_lok');
 			$loker	= $this->db->get_where("loker",array("id_pengirim_lok" => $id))->result();
 			foreach ($loker as $key) {
 				@unlink("assets/upload/loker/".$key->foto_lok);
 			}
+			//hapus loker
+			$this->db->where($id_tabel, $id);
+			$delete = $this->db->delete($tabel);
+			if ($delete) {
+				if(file_exists("assets/upload/".$tabel."/".$img)){
+					@unlink("assets/upload/".$tabel."/".$img);
+				}
+				return true;
+			}
 
+			break;
+			case 'sekolah':
+			//hps foto alumni
+			$this->db->select('foto_al');
+			$alumni	= $this->db->get_where("alumni",array("id_sklh" => $id))->result();
+			foreach ($alumni as $key) {
+				@unlink("assets/upload/alumni/".$key->foto_al);
+			}
+			//hapus alumni
 			$this->db->where($id_tabel, $id);
 			$delete = $this->db->delete($tabel);
 			if ($delete) {
