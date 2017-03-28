@@ -4,7 +4,7 @@
   <div class="col-md-12">
     <div class="box box-solid">
       <div class="box-header with-border">
-        <a href="<?php echo base_url(); ?>web_perusahaan/form_loker/add">
+        <a href="<?php echo base_url(); ?>web_sekolah/form_loker/add">
           <button class="btn bg-navy btn-md pull-right">Tambah Data</button>
         </a>
       </div>
