@@ -87,7 +87,7 @@
 			else
 			{
 				$data['title']		= "Detail Loker";
-				$data['halaman']	= "admin/halaman_detail_loker";
+				$data['halaman']	= "admin/halaman_detail_sekolah";
 				$this->template_admin($data);
 			}
 		}
