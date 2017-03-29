@@ -110,7 +110,6 @@ class M_admin extends CI_Model {
 				@unlink("assets/upload/perusahaan/".$key->logo_per);
 				@unlink("assets/upload/loker/".$key->foto_lok);
 			}
-			//hapus foto loker
 
 			//hapus alumni
 			$this->db->where($id_tabel, $id);
