@@ -26,6 +26,7 @@
 							<a href="<?php echo base_url(); ?>web_admin/data_detail_perusahaan/<?php echo $perusahaan->id_per ; ?>" class="btn btn-social-icon bg-olive btn-xs">
 								<i class="fa fa-search"></i>
 							</a>
+							<?php if ($perusahaan->add_by == "ADM1") {?>
 							<span data-toggle="tooltip" title="Hapus">
 								<a class="btn btn-social-icon btn-danger btn-xs" data-toggle="modal" data-target="#<?php echo $perusahaan->id_per; ?>_hapus"><i class="fa fa-trash"></i></a>
 							</span>
@@ -50,6 +51,7 @@
 									</div>
 									<!-- /.modal-dialog -->
 								</div>
+								<?php } ?>
 							</td>
 						</tr>
 					<?php endforeach ?>

@@ -27,7 +27,8 @@
               <td><?php $status = ($val->verifikasi_lok == "0") ? "Waiting" : "Published" ; echo $status; ?></td>
               <td>
                 <span data-toggle="tooltip" title="Detail">
-                  <a class="btn btn-success btn-xs" href="<?php echo base_url(); ?>web_sekolah/data_detail_loker/<?php echo $val->id_lok ; ?>" "><i class="fa fa-search "></i>
+                <a class="btn btn-success btn-xs" href="<?php echo base_url(); ?>web_sekolah/data_detail_loker/<?php echo $val->id_lok ; ?>">
+                    <i class="fa fa-search "></i>
                   </a> 
                 </span>
                 <?php if($val->verifikasi_lok == "0" && $val->verifikasi_by_lok == ""){ ?>
@@ -39,28 +40,28 @@
                 <?php } ?>
 
                 <!-- Model ACC -->
-                  <div class="modal fade modal-info" tabindex="-1" role="dialog" aria-labelledby="hapus" aria-hidden="true" id="acc_<?php echo $val->id_lok;?>">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title">Setujui Loker</h4>
-                          </div>
-                          <div class="modal-body">
-                            <p>Yakin akan menyetujui loker <?php echo $val->judul_lok; ?>?</p>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Batal</button>
-                            <a href="<?php echo base_url()."web_sekolah/acc_loker/".$val->id_lok; ?>"><button type="button" class="btn btn-outline">Yakin</button>
-                            </a>
-                          </div>
+                <div class="modal fade modal-info" tabindex="-1" role="dialog" aria-labelledby="hapus" aria-hidden="true" id="acc_<?php echo $val->id_lok;?>">
+                  <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">×</span></button>
+                          <h4 class="modal-title">Setujui Loker</h4>
                         </div>
-                        <!-- /.modal-content -->
+                        <div class="modal-body">
+                          <p>Yakin akan menyetujui loker <?php echo $val->judul_lok; ?>?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Batal</button>
+                          <a href="<?php echo base_url()."web_sekolah/acc_loker/".$val->id_lok; ?>"><button type="button" class="btn btn-outline">Yakin</button>
+                          </a>
+                        </div>
                       </div>
-                      <!-- /.modal-dialog -->
+                      <!-- /.modal-content -->
                     </div>
-                    <!-- Model ACC -->
+                    <!-- /.modal-dialog -->
+                  </div>
+                  <!-- Model ACC -->
 
                 <!-- EDIT LOKER 
                 <a href="<?php echo site_url('web_perusahaan/form_loker/edit/'.$val->id_lok); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Ubah"><i class="fa fa-edit "></i>

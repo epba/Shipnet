@@ -12,7 +12,7 @@
         <table class="table table-striped table-bordered tbl-all">
           <thead>
             <th>No.</th>
-            <th>Nama Perusahaan</th>
+            <th>Nama Perusahaan </th>
             <th>Judul Loker</th>
             <th>Status</th>
             <th>Actions</th>
@@ -42,6 +42,13 @@
                     <i class="fa fa-check "></i>
                   </a>
                   <?php } ?>
+                  <?php if($val->id_pengirim_lok == "ADM1"){ ?>
+                  <span data-toggle="tooltip" title="Hapus">
+                  <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus_<?php echo $val->id_lok; ?>">
+                      <i class="fa fa-trash "></i>
+                    </a>
+                  </span>
+                  <?php } ?>
                 </span>
                 <!-- Model Hapus -->
                 <div class="modal fade modal-danger" tabindex="-1" role="dialog" aria-labelledby="hapus" aria-hidden="true" id="hapus_<?php echo $val->id_lok;?>">
@@ -57,7 +64,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Batal</button>
-                          <a href="<?php echo base_url()."web_perusahaan/hapus_loker/".$val->id_lok."/".$val->foto_lok; ?>"><button type="button" class="btn btn-outline">Yakin</button>
+                          <a href="<?php echo base_url()."web_admin/hapus_loker/".$val->id_lok."/".$val->foto_lok; ?>"><button type="button" class="btn btn-outline">Yakin</button>
                           </a>
                         </div>
                       </div>

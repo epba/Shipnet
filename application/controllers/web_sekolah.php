@@ -58,6 +58,21 @@ class Web_sekolah extends CI_Controller {
 		$this->template_sekolah($data);
 	}
 
+	public function data_detail_perusahaan($id)
+	{
+		$data['perusahaan']	= $this->M_sekolah->get_detail_perusahaan($id);
+		$data['loker']		= $this->M_sekolah->get_detail_loker($id);
+		if ($data['perusahaan'] == null) {
+			echo "null";
+		}
+		else
+		{
+			$data['title']	= "Detail Perusahaan";
+			$data['halaman']= "sekolah/halaman_detail_perusahaan";
+			$this->template_sekolah($data);
+		}
+	}
+
 	public function tampung_data_perusahaan()
 	{
 

@@ -70,7 +70,7 @@ class M_admin extends CI_Model {
 		}
 	}
 
-	public function proses_hapus($id,$tabel)
+	public function proses_hapus($id,$tabel)// SEKOLAH DAN PERUSAHAAN
 	{
 		$img			= $this->uri->segment(5);
 		$id_tabel     	= ($tabel == "sekolah") ? "id_sklh" : "id_per";
@@ -91,8 +91,8 @@ class M_admin extends CI_Model {
 				}
 				return true;
 			}
-
 			break;
+
 			case 'sekolah':
 			//hps foto alumni
 			$this->db->select('foto_al');
@@ -100,6 +100,18 @@ class M_admin extends CI_Model {
 			foreach ($alumni as $key) {
 				@unlink("assets/upload/alumni/".$key->foto_al);
 			}
+			//hapus foto perusahaan dan foto loker
+			$this->db->select('foto_lok,logo_per');
+			$this->db->from('loker');
+			$this->db->join('perusahaan', 'perusahaan.id_per = loker.id_pengirim_lok');
+			$this->db->where('add_by', $id);
+			$hsl	= $this->db->get()->result();
+			foreach ($hsl as $key) {
+				@unlink("assets/upload/perusahaan/".$key->logo_per);
+				@unlink("assets/upload/loker/".$key->foto_lok);
+			}
+			//hapus foto loker
+
 			//hapus alumni
 			$this->db->where($id_tabel, $id);
 			$delete = $this->db->delete($tabel);
@@ -115,6 +127,18 @@ class M_admin extends CI_Model {
 			default:
 					# code...
 			break;
+		}
+	}
+
+	public function proses_hapus_loker($id,$img)
+	{
+		$this->db->where('id_lok', $id);
+		$hps = $this->db->delete('loker');
+		if ($hps) {
+			if(file_exists("assets/upload/loker"."/".$img)){
+				@unlink("assets/upload/loker"."/".$img);
+			}
+			return true;
 		}
 	}
 

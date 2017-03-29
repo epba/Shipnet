@@ -309,13 +309,26 @@
 	public function hapus_data($id,$prev_url)
 	{
 		if($this->M_admin->proses_hapus($id,$prev_url) == "true"){
-			
 			$this->session->set_flashdata('notifikasi', $this->notif->sukses_hapus());
 			redirect('web_admin/data_'.$prev_url,'refresh');
 		}
 		else {
 			$this->session->set_flashdata('notifikasi', $this->notif->fail_hapus());
 			redirect('web_admin/data_'.$prev_url,'refresh');
+		}
+	}
+
+	public function hapus_loker()
+	{
+		$id_loker 	= $this->uri->segment(3);
+		$foto_loker = $this->uri->segment(4);
+		if($this->M_admin->proses_hapus_loker($id_loker,$foto_loker)){
+			$this->session->set_flashdata('notifikasi', $this->notif->sukses_hapus());
+			redirect('web_admin/data_loker','refresh');
+		}
+		else {
+			$this->session->set_flashdata('notifikasi', $this->notif->fail_hapus());
+			redirect('web_admin/data_loker','refresh');
 		}
 	}
 }

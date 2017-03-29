@@ -33,6 +33,11 @@ class M_sekolah extends CI_Model {
 		return $get;
 	}
 
+	public function get_detail_perusahaan($id)
+	{
+		return $this->db->get_where("perusahaan",array("id_per" => $id))->row();
+	}
+
 	public function proses_acc_loker($id)
 	{
 		$this->db->where('id_lok', $id);
@@ -63,8 +68,8 @@ class M_sekolah extends CI_Model {
 		$hapus = $this->db->delete($tabel);
 
 		if ($hapus) {
-			if(file_exists("assets/upload/".$tabel."/".$this->uri->segment(4))){
-				@unlink("assets/upload/".$tabel."/".$this->uri->segment(4));
+			if(file_exists("assets/upload/".$tabel."/".$this->uri->segment(5))){
+				@unlink("assets/upload/".$tabel."/".$this->uri->segment(5));
 			}
 			return true;
 		}
