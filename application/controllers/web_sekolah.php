@@ -140,7 +140,7 @@ class Web_sekolah extends CI_Controller {
 		{
 			$error = validation_errors();
 			$this->session->set_flashdata('notifikasi', $this->notif->validasi($error));
-			redirect('web_sekolah/form_perusahaan','refresh');
+			redirect('web_sekolah/form_perusahaan/add','refresh');
 		}
 	}
 
@@ -199,33 +199,53 @@ class Web_sekolah extends CI_Controller {
 
 		if ( ! $this->upload->do_upload('excel'))
 		{
-			$error = array('error' => $this->upload->display_errors());
-			var_dump($error);
+			$error_upload = array('error' => $this->upload->display_errors());
+			$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
+			redirect('web_sekolah/data_alumni','refresh');
 		}
 		else
 		{
-			$a = $this->upload->data();
-            $file = 'assets/upload/sekolah/'.$a['orig_name']; //get excell file name
-            $this->load->library('Excel');
+			$data_upload = $this->upload->data();
+			//get excell file name
+			$file = 'assets/upload/sekolah/'.$data_upload['orig_name']; 
+			$this->load->library('Excel');
             $objPHPExcel = PHPExcel_IOFactory::load($file); //load file excell from $file           
             $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection(); //collect data
-            
             //extract to a PHP readable array format
-
             foreach ($cell_collection as $cell) 
             {
             	$kolom = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
             	$baris = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
             	$data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getValue();
             	if ($baris == 1) {
-            		$header[$baris][$kolom] = $data_value;
+            		$header[$baris][$kolom]   = $data_value;
             	} else {
             		$arr_data[$baris][$kolom] = $data_value;
             	}
             }
             $data['header'] = $header;
-            $data['values'] = $arr_data;           
-            print_r($data['values']);
+            $data['values'] = $arr_data;  
+            //nilai awal keberhasilan / kegagalan upload
+            $sukses = 0;
+            $fail = 0;
+            //nilai awal keberhasilan / kegagalan upload
+            foreach ($data['values'] as $key) {
+            	$data_alumni['username_al']		=  $this->session->userdata('data_login_sekolah')['id_sklh']."-".$key['A'];
+            	$data_alumni['nama_al']			=  addslashes($key['B']);
+            	$data_alumni['thn_lulus_al']	=  addslashes($key['C']);
+            	$data_alumni['id_sklh']			=  $this->session->userdata('data_login_sekolah')['id_sklh'];
+            	$cek_username	= $this->M_sekolah->cek_data_alumni($data_alumni['username_al']);
+            	if($cek_username == "Accept"){
+            		$this->M_sekolah->proses_add("alumni",$data_alumni);
+            		$sukses 	= $sukses+1;
+            	}
+            	else {
+            		$fail 		= $fail+1;
+            	}
+            }
+            @unlink("assets/upload/sekolah/".$data_upload['orig_name']);
+            $this->session->set_flashdata('notifikasi', $this->notif->excell($sukses,$fail));
+            redirect('web_sekolah/data_alumni','refresh');
         }
     }
 
@@ -242,7 +262,31 @@ class Web_sekolah extends CI_Controller {
     {
     	$data['title']		= "Data Loker";
     	$data['halaman']	= "sekolah/halaman_data_loker";
+    	$data['loker']		= $this->M_sekolah->get_loker();
     	$this->template_sekolah($data);
+    }
+
+    public function data_detail_loker($id)
+    {
+    	$data['loker']		= $this->M_sekolah->get_detail_loker($id);
+    	if ($data['loker'] == null) {
+    		echo "null";
+    	}
+    	else
+    	{
+    		$data['title']		= "Detail Loker";
+    		$data['halaman']	= "sekolah/halaman_detail_loker";
+    		$this->template_sekolah($data);
+    	}
+    }
+
+    public function acc_loker($id)
+    {
+    	$acc = $this->M_sekolah->proses_acc_loker($id);
+    	if ($acc) {
+    		$this->session->set_flashdata('notifikasi', $this->notif->sukses_edit());
+    		redirect('web_sekolah/data_loker','refresh');	
+    	}
     }
 
 }

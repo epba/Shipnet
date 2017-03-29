@@ -48,6 +48,50 @@
 			$this->template_admin($data);
 		}
 
+		public function data_detail_perusahaan($id)
+		{
+			$data['perusahaan']	= $this->M_admin->get_detail_perusahaan($id);
+			$data['loker']		= $this->M_admin->get_detail_loker($id);
+			if ($data['perusahaan'] == null) {
+				echo "null";
+			}
+			else
+			{
+				$data['title']	= "Detail Perusahaan";
+				$data['halaman']= "admin/halaman_detail_perusahaan";
+				$this->template_admin($data);
+			}
+		}
+
+		public function data_detail_loker($id)
+		{
+			$data['loker']		= $this->M_admin->get_detail_loker($id);
+			if ($data['loker'] == null) {
+				echo "null";
+			}
+			else
+			{
+				$data['title']		= "Detail Loker";
+				$data['halaman']	= "admin/halaman_detail_loker";
+				$this->template_admin($data);
+			}
+		}
+
+		public function data_detail_sekolah($id)
+		{
+			$data['sekolah']	= $this->M_admin->get_detail_sekolah($id);
+			$data['loker']		= $this->M_admin->get_detail_loker($id);
+			if ($data['sekolah'] == null) {
+				echo "null";
+			}
+			else
+			{
+				$data['title']		= "Detail Loker";
+				$data['halaman']	= "admin/halaman_detail_loker";
+				$this->template_admin($data);
+			}
+		}
+
 		public function acc_loker($id)
 		{
 			$acc = $this->M_admin->proses_acc_loker($id);
@@ -67,15 +111,19 @@
 
 		public function form($nama_form)
 		{
-			$data['halaman']	= "admin/form_tambah_user";
 			if ($nama_form == "sekolah") {
+				$data['halaman']	= "admin/form_tambah_user";
 				$data['title']		= "Tambah Data Sekolah";
-				$this->template_admin($data);
 			}
 			elseif ($nama_form == "perusahaan") {
+				$data['halaman']	= "admin/form_tambah_user";
 				$data['title']		= "Tambah Data Perusahaan";
-				$this->template_admin($data);
 			}
+			elseif ($nama_form == "loker") {
+				$data['halaman']	= "admin/form_loker";
+				$data['title']		= "Tambah Data Loker";
+			}
+			$this->template_admin($data);
 		}
 
 		public function tampung_data_form($simpan_sebagai)
@@ -178,6 +226,83 @@
 			$error = validation_errors();
 			$this->session->set_flashdata('notifikasi', $this->notif->validasi($error));
 			redirect('web_admin/form/'.$simpan_sebagai,'refresh');
+		}
+	}
+
+	public function tampung_data_loker()
+	{
+		$notif_sukses	= ($this->uri->segment(3) == "add") ? "sukses_add" : "sukses_edit";
+		
+		$this->form_validation->set_rules('tmp_lok','Nama Perusahaan','required|min_length[3]');
+		$this->form_validation->set_rules('judul_lok','Judul Loker','required|min_length[10]');
+		$this->form_validation->set_rules('isi_lok','Konten Loker','required|min_length[30]');
+		$this->form_validation->set_rules('alamat_lok','Isikan Alamat Loker','required|min_length[10]');
+		$this->form_validation->set_rules('time_end_lok','Masa Berlaku','required');
+		if($this->form_validation->run())     
+		{   
+			$data_loker = array(
+				'id_pengirim_lok'	=> $this->session->userdata('data_login_admin')['id_adm'],
+				'tmp_lok'			=> addslashes($this->input->post('tmp_lok')),
+				'judul_lok' 		=> addslashes($this->input->post('judul_lok')),
+				'isi_lok'			=> addslashes($this->input->post('isi_lok')),
+				'lng_lok'			=> addslashes($this->input->post('lng_lok')),
+				'lat_lok'			=> addslashes($this->input->post('lat_lok')),
+				'alamat_lok' 		=> addslashes($this->input->post('alamat_lok')),
+				'time_lok' 			=> date("l, j  F Y"),
+				'time_end_lok' 		=> date_format(date_create($this->input->post('time_end_lok')),"l, j  F Y"),
+				'verifikasi_lok' 	=> "1",
+				'verifikasi_by_lok' => $this->session->userdata('data_login_admin')['id_adm']
+				);
+			// form mengandung foto
+			if (!empty($_FILES['foto_lok']['name'])) 
+			{
+				$extensi 				 = explode("/",$_FILES['foto_lok']['type']);
+				$config['upload_path'] 	 = './assets/upload/loker';
+				$config['allowed_types'] = 'jpg|png|jpeg';	
+				$config['file_name'] 	 = $data_loker['id_pengirim_lok']."_".date("ymdwhis").".".$extensi[1];
+
+				$this->upload->initialize($config);
+				$kirim_data = $this->M_admin->proses_tambah_data("loker",array_merge($data_loker,array('foto_lok' => $config['file_name'])));
+				if ($kirim_data) {
+					$this->load->library('upload', $config);
+						//jika gagal upload
+					if ( ! $this->upload->do_upload("foto_lok"))
+					{
+						$error_upload = array('error' => $this->upload->display_errors());
+						$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
+						redirect('web_admin/data_loker','refresh');
+					}
+					//jika sukses upload
+					else
+					{ 
+						$this->session->set_flashdata('notifikasi', $this->notif->$notif_sukses());
+						redirect('web_admin/data_loker','refresh');
+					}
+				}
+				else {
+					$this->session->set_flashdata('notifikasi', $this->notif->fail());
+					redirect('web_admin/data_loker','refresh');
+				}
+			}
+			// form tdk mengandung foto
+			else { 
+				$kirim_data = $this->M_admin->proses_tambah_data("loker",$data_loker);
+				if ($kirim_data) {
+					$this->session->set_flashdata('notifikasi', $this->notif->$notif_sukses());
+					redirect('web_admin/data_loker','refresh');
+				}
+				else
+				{
+					$this->session->set_flashdata('notifikasi', $this->notif->fail());
+					redirect('web_admin/data_loker','refresh');
+				}
+			}
+		}
+		else
+		{
+			$error = validation_errors();
+			$this->session->set_flashdata('notifikasi', $this->notif->validasi($error));
+			redirect('web_admin/form/loker/add','refresh');
 		}
 	}
 

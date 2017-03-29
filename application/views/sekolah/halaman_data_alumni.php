@@ -47,7 +47,10 @@
 													<br>
 													<ul class="list-group list-group-unbordered">
 														<li class="list-group-item">
-															<b>Nim Alumni</b><i class="pull-right"><?php echo $data_alumni->username_al; ?></i>
+															<b>Nim Alumni</b><i class="pull-right"><?php echo str_replace($this->session->userdata('data_login_sekolah')['id_sklh']."-","", $data_alumni->username_al); ?></i>
+														</li>
+														<li class="list-group-item">
+															<b>Nama</b><i class="pull-right"><?php echo $data_alumni->nama_al; ?></i>
 														</li>
 														<li class="list-group-item">
 															<b>Alamat </b><i class="pull-right"><?php echo $data_alumni->alamat_al; ?></i>
@@ -57,6 +60,9 @@
 														</li>
 														<li class="list-group-item">
 															<b>Email</b><i class="pull-right"><?php echo $data_alumni->email_al; ?></i>
+														</li>
+														<li class="list-group-item">
+															<b>Tahun Lulus</b><i class="pull-right"><?php echo $data_alumni->thn_lulus_al; ?></i>
 														</li>
 													</ul>
 												</div>

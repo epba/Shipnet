@@ -26,8 +26,13 @@ elseif ($act == "edit"){
 	<div class="box-header">
 	</div>
 	<?php echo form_open_multipart(base_url()."web_sekolah/upload_alumni"); ?>
-	<input type="file" name="excel">
-	<input type="submit">
+	<div class="box-body">
+		<div class="form-group">
+			<label for="foto_lok" class="control-label">File Excel</label>
+			<input type="file" name="excel" class="form-control">
+		</div>
+		<input type="submit" class="btn btn-primary" value="Unggah">
+	</div>
 	<?php echo form_close(); ?>
 	<!-- <div class="box-body">
 		<?php echo form_open_multipart('web_sekolah/tampung_data_alumni/'.$act."/".$id); ?>

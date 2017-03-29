@@ -52,6 +52,12 @@ Class Notif {
 		$notif = $this->fail_open.$this->button_close.$this->info.'Penghapusan Gagal.'.$this->closing;
 		return $notif;
 	}
+
+	function excell($sukses,$fail)
+	{
+		$notif = $this->sukses_open.$this->button_close.$this->info.'Total data tersimpan : '.$sukses.', Total data gagal tersimpan : '.$fail.$this->closing;
+		return $notif;
+	}
 	
 }
 

@@ -21,6 +21,21 @@ class M_admin extends CI_Model {
 		return $this->db->get_where("perusahaan")->result();
 	}
 
+	public function get_detail_perusahaan($id)
+	{
+		return $this->db->get_where("perusahaan",array("id_per" => $id))->row();
+	}
+
+	public function get_detail_sekolah($id)
+	{
+		return $this->db->get_where("sekolah",array("id_sklh" => $id))->row();
+	}
+
+	public function get_detail_loker($id)
+	{
+		return $this->db->get_where("loker",array("id_lok" => $id))->row();
+	}
+
 	public function get_sekolah()
 	{
 		return $this->db->get("sekolah")->result();
@@ -28,8 +43,9 @@ class M_admin extends CI_Model {
 
 	public function get_data_loker()
 	{
+		$this->db->select("loker.*,perusahaan.add_by");
 		$this->db->from('loker');
-		$this->db->join('perusahaan', 'perusahaan.id_per = loker.id_pengirim_lok');
+		$this->db->join('perusahaan', 'perusahaan.id_per = loker.id_pengirim_lok','left');
 		return $this->db->get()->result();
 	}
 

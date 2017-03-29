@@ -16,6 +16,38 @@ class M_sekolah extends CI_Model {
 		return $this->db->get_where("alumni",array('id_sklh' => $this->session->userdata('data_login_sekolah')['id_sklh']))->result();
 	}
 
+	public function cek_data_alumni($username)
+	{
+		$cek = $this->db->get_where("alumni",array('username_al' => $username))->result();
+		$perintah = (COUNT($cek) > 0) ? "Reject" : "Accept" ;
+		return $perintah;
+	}
+
+	public function get_loker()
+	{
+		$this->db->select("loker.*,perusahaan.id_per,sekolah.id_sklh");
+		$this->db->from('loker');
+		$this->db->join("perusahaan", "perusahaan.id_per = loker.id_pengirim_lok");
+		$this->db->join("sekolah", "perusahaan.add_by = sekolah.id_sklh");
+		$get = $this->db->get()->result();
+		return $get;
+	}
+
+	public function proses_acc_loker($id)
+	{
+		$this->db->where('id_lok', $id);
+		$update	= $this->db->update('loker', array('verifikasi_lok' => "1", 'verifikasi_by_lok' => $this->session->userdata('data_login_sekolah')['id_sklh']));
+		if($update)
+		{
+			return true;
+		}
+	}
+
+	public function get_detail_loker($id)
+	{
+		return $this->db->get_where("loker",array("id_lok" => $id))->row();
+	}
+
 	public function proses_add($tabel,$data)
 	{
 		if($this->db->insert($tabel, $data))

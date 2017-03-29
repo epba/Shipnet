@@ -31,8 +31,10 @@
                   <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#detail_<?php echo $val->id_lok; ?>"><i class="fa fa-search "></i>
                   </a> 
                 </span>
+                <?php if($val->verifikasi_lok == "0"){ ?>
                 <a href="<?php echo site_url('web_perusahaan/form_loker/edit/'.$val->id_lok); ?>" class="btn btn-info btn-xs" data-toggle="tooltip" title="Ubah"><i class="fa fa-edit "></i>
                 </a>
+                <?php } ?>
                 <span data-toggle="tooltip" title="Hapus">
                   <a class="btn btn-danger btn-xs" data-toggle="modal" data-target="#hapus_<?php echo $val->id_lok;?>"><i class="fa fa-trash "></i>
                   </a>

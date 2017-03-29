@@ -12,6 +12,7 @@
 				<tr>
 					<th>No.</th>
 					<th>Nama</th>
+					<th>Jenjang</th>
 					<th>Opsi</th>
 				</tr>
 			</thead>
@@ -22,8 +23,22 @@
 						<td><?php echo $no+1; ?> </td>
 						<td><?php echo $data_sekolah->nama_sklh; ?></td>
 						<td>
-						<span data-toggle="tooltip" title="Detail">
-								<a class="btn btn-social-icon bg-olive btn-xs" data-toggle="modal" data-target="#<?php echo $data_sekolah->id_sklh; ?>"><i class="fa fa-search"></i></a>
+							<?php 
+							if ($data_sekolah->level_sklh == "kuliah") {
+								$jenjang = "PERGURUAN TINGGI";
+							}
+							elseif ($data_sekolah->level_sklh == "sma") {
+								$jenjang = "SMA";
+							}
+							else {
+								$jenjang = "SMK";
+							}
+							echo $jenjang;
+							?>
+						</td>
+						<td>
+							<span data-toggle="tooltip" title="Detail">
+								<a class="btn btn-social-icon bg-olive btn-xs" href="<?php echo base_url(); ?>web_admin/data_detail_sekolah/<?php echo $data_sekolah->id_sklh ; ?>"><i class="fa fa-search"></i></a>
 							</span>
 							<span data-toggle="tooltip" title="Hapus">
 								<a class="btn btn-social-icon btn-danger btn-xs" data-toggle="modal" data-target="#<?php echo $data_sekolah->id_sklh; ?>_hapus"><i class="fa fa-trash"></i></a>
@@ -60,7 +75,7 @@
 															<b>Website</b><i class="pull-right"><?php echo $data_sekolah->web_sklh; ?></i>
 														</li>
 														<li class="list-group-item">
-															<b>Jenjang</b><i class="pull-right"><?php echo $data_sekolah->level_sklh; ?></i>
+															<b>Jenjang</b><i class="pull-right"><?php echo $jenjang; ?></i>
 														</li>
 													</ul>
 												</div>
