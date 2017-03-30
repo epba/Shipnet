@@ -13,7 +13,7 @@
 		<div class="row">
 			<section class="col-lg-3 invoice-col">
 				<address>
-				<img class="img-responsive" src="<?php echo base_url();?>assets/upload/perusahaan/<?php echo  $perusahaan->logo_per;?>"; ?>
+					<img class="img-responsive" src="<?php echo base_url();?>assets/upload/perusahaan/<?php echo  $perusahaan->logo_per;?>"; ?>
 				</address>
 			</section>
 			<section class="col-lg-3 invoice-col">
@@ -24,7 +24,13 @@
 					<br>
 					Ditambahkan oleh :
 					<br>
-					<?php echo $perusahaan->add_by; ?>
+					<?php 	
+					if (!isset($perusahaan->nama_adm)) {
+						echo $perusahaan->nama_sklh;
+					} 
+					else {
+						echo $perusahaan->nama_adm ;
+					}?>
 				</address>
 			</section>
 			<section class="col-lg-3 invoice-col">

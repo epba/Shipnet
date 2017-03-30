@@ -22,9 +22,29 @@ class M_admin extends CI_Model {
 	}
 
 	public function get_detail_perusahaan($id)
-	{
-		return $this->db->get_where("perusahaan",array("id_per" => $id))->row();
+	{	
+		$perusahaan = $this->db->get_where("perusahaan",array("id_per" => $id))->row();
+		// var_dump($perusahaan);
+		preg_match("/ADM|SKL/", $perusahaan->add_by, $per);
+		if ($per[0] == "SKL") {
+			$this->db->from("perusahaan");
+			$this->db->select("perusahaan.*,sekolah.nama_sklh");
+			$this->db->join("sekolah", "sekolah.id_sklh = perusahaan.add_by");
+			$this->db->where('id_per', $id);
+			$data = $this->db->get()->row();
+			return $data;
+		}
+		elseif ($per[0] == "ADM") {
+			$this->db->select("perusahaan.*,admin.nama_adm");
+			$this->db->from('perusahaan');
+			$this->db->join('admin', 'admin.id_adm = perusahaan.add_by');
+			$this->db->where('id_adm', $perusahaan->add_by);
+			$data = $this->db->get()->row();
+			return $data;
+		}
 	}
+
+
 
 	public function get_detail_sekolah($id)
 	{
@@ -32,7 +52,7 @@ class M_admin extends CI_Model {
 	}
 
 	public function get_detail_loker($id)
-	{
+	{	
 		return $this->db->get_where("loker",array("id_lok" => $id))->row();
 	}
 

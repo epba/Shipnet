@@ -51,7 +51,6 @@
 		public function data_detail_perusahaan($id)
 		{
 			$data['perusahaan']	= $this->M_admin->get_detail_perusahaan($id);
-			$data['loker']		= $this->M_admin->get_detail_loker($id);
 			if ($data['perusahaan'] == null) {
 				echo "null";
 			}
