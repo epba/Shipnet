@@ -29,6 +29,12 @@ Class Notif {
 		return $notif;
 	}
 
+	function error_upload($error_upload)
+	{
+		$notif = $this->fail_open.$this->button_close.$this->info.'Penambahan data gagal.<p>'.$error_upload['error'].$this->closing;
+		return $notif;
+	}
+
 	function  fail()
 	{
 		$notif = $this->fail_open.$this->button_close.$this->info.'Penambahan data gagal.Data sudah ada'.$this->closing;

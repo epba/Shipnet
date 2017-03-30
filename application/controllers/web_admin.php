@@ -115,8 +115,30 @@
 				$data['title']		= "Tambah Data Sekolah";
 			}
 			elseif ($nama_form == "perusahaan") {
+
 				$data['halaman']	= "admin/form_tambah_user";
 				$data['title']		= "Tambah Data Perusahaan";
+
+				$this->load->library('googlemaps');
+				$this->load->library('geocoder');
+
+				$marker = array();
+				$marker['center'] = 'auto';
+				$marker['onboundschanged'] = 'if (!centreGot) {
+					var mapCentre = map.getCenter();
+					marker_0.setOptions({
+						position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+					});
+				}
+				centreGot = true;';
+				$this->googlemaps->initialize($marker);
+				$marker['position'] = 'auto';
+				$marker['infowindow_content'] = '';	
+				$marker['draggable'] = true;
+				$marker['ondragend'] = '$("#latlong").val( event.latLng.lat() + \', \' + event.latLng.lng());';
+				$this->googlemaps->add_marker($marker);
+				$data['map'] = $this->googlemaps->create_map();
+
 			}
 			elseif ($nama_form == "loker") {
 				$data['halaman']	= "admin/form_loker";

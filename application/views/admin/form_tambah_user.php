@@ -4,6 +4,11 @@ $name = ($uri == "sekolah") ? "Nama Sekolah" : "Nama Perusahaan" ;
 ?>
 <?php echo $this->session->flashdata('notifikasi'); ?>
 
+<script type="text/javascript">
+  var centreGot = false;
+</script>
+<?php echo $map['js']; ?>
+
 <div class="row">
   <div class="col-md-12">
     <div class="box box-primary with-border">
@@ -18,12 +23,17 @@ $name = ($uri == "sekolah") ? "Nama Sekolah" : "Nama Perusahaan" ;
           <input type="text" class="form-control" style="text-transform: lowercase;" placeholder="Username untuk login (Bukan Nama)" required="" minlength="3" name="username">
         </div>
         <div class="form-group">
+          <label for="map">Dimana Lokasi Perusahaan ?</label>
+          <input type="text" class="form-control" placeholder="" required="" id="latlong" readonly="" minlength="8" name="cp" value="">
+          <?php echo $map['html']; ?>
+        </div>
+        <div class="form-group">
           <label for="alamat_instansi">Alamat *</label>
           <textarea class="form-control textarea" placeholder="Alamat Lengkap" required="" minlength="10" rows="5" name="alamat" required=""></textarea>
         </div>
         <div class="form-group">
           <label for="no_telp">No. Telp *</label>
-          <input type="number" class="form-control" placeholder="" required="" minlength="8" name="cp">
+          <input type="number" class="form-control" placeholder="" required="" minlength="8" name="cp" value="">
         </div>
         <div class="form-group">
           <label for="email">E-mail *</label>
@@ -36,6 +46,10 @@ $name = ($uri == "sekolah") ? "Nama Sekolah" : "Nama Perusahaan" ;
         <div class="form-group">
           <label for="fax">Website</label>
           <input type="text" class="form-control" placeholder="" name="web">
+        </div>
+        <div class="form-group">
+          <label for="fax">Website</label>
+          <input type="text" id="aa" class="form-control" placeholder="" name="web">
         </div>
         <?php if($uri == "sekolah"){ ?>
         <div class="form-group">

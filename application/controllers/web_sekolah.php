@@ -215,7 +215,7 @@ class Web_sekolah extends CI_Controller {
 		if ( ! $this->upload->do_upload('excel'))
 		{
 			$error_upload = array('error' => $this->upload->display_errors());
-			$this->session->set_flashdata('notifikasi', $this->notif->sukses_tanpa_foto($error_upload));
+			$this->session->set_flashdata('notifikasi', $this->notif->error_upload($error_upload));
 			redirect('web_sekolah/data_alumni','refresh');
 		}
 		else
